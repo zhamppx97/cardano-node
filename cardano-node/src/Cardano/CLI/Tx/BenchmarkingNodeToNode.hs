@@ -22,7 +22,7 @@ import           Data.ByteString.Lazy (ByteString)
 import           Data.Proxy (Proxy (..))
 import           Network.Mux.Interface (AppType(InitiatorApp))
 import           Network.Socket (AddrInfo)
-import           Network.TypedProtocol.Driver (TraceSendRecv, runPeer)
+import           Network.TypedProtocol.Driver (TraceSendRecv, runPeer')
 import           Network.TypedProtocol.Driver.ByteLimit (DecoderFailureOrTooMuchInput)
 
 import           Control.Tracer (Tracer, nullTracer)
@@ -96,19 +96,19 @@ benchmarkConnectTxSubmit trs nc localAddr remoteAddr myTxSubClient = do
       NtN.NodeToNodeV_1
       (NtN.NodeToNodeVersionData { NtN.networkMagic = nodeNetworkMagic (Proxy @blk) nc})
       (NtN.DictVersion NtN.nodeToNodeCodecCBORTerm)
-      $ OuroborosInitiatorApplication $ \peer ptcl ->
+      $ OuroborosInitiatorApplication (NtN.simpleInitiatorControl 60) $ \peer ptcl ->
           case ptcl of
             NtN.ChainSyncWithHeadersPtcl -> \channel ->
-              runPeer nullTracer (pcChainSyncCodec myCodecs) peer channel
-                                 (chainSyncClientPeer chainSyncClientNull)
+              runPeer' nullTracer (pcChainSyncCodec myCodecs) peer channel
+                                  (chainSyncClientPeer chainSyncClientNull)
             NtN.BlockFetchPtcl           -> \channel ->
-              runPeer nullTracer (pcBlockFetchCodec myCodecs)  peer channel
-                                 (blockFetchClientPeer blockFetchClientNull)
+              runPeer' nullTracer (pcBlockFetchCodec myCodecs)  peer channel
+                                  (blockFetchClientPeer blockFetchClientNull)
             NtN.TxSubmissionPtcl         -> \channel ->
-              runPeer (trSendRecvTxSubmission trs)
-                      (pcTxSubmissionCodec myCodecs)
-                      peer channel
-                      (txSubmissionClientPeer myTxSubClient)
+              runPeer' (trSendRecvTxSubmission trs)
+                       (pcTxSubmissionCodec myCodecs)
+                       peer channel
+                       (txSubmissionClientPeer myTxSubClient)
 
 -- the null block fetch client
 blockFetchClientNull

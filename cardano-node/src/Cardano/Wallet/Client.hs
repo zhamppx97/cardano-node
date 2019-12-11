@@ -20,6 +20,7 @@ import           Data.Void (Void)
 import           Data.ByteString.Lazy (ByteString)
 import           Data.Proxy (Proxy (..))
 
+import           Control.Monad.Class.MonadAsync
 import           Control.Monad.Class.MonadST
 import           Control.Monad.Class.MonadSTM
 import           Control.Monad.Class.MonadThrow
@@ -85,6 +86,7 @@ runWalletClient ptcl sockDir (CoreNodeId id) tracer = do
 localInitiatorNetworkApplication
   :: forall blk m peer.
      ( RunNode blk
+     , MonadAsync m
      , MonadST m
      , MonadThrow m
      , MonadTimer m
@@ -112,10 +114,10 @@ localInitiatorNetworkApplication Proxy chainSyncTracer localTxSubmissionTracer p
       (NodeToClientVersionData { networkMagic = nodeNetworkMagic (Proxy @blk) pInfoConfig })
       (DictVersion nodeToClientCodecCBORTerm)
 
-  $ OuroborosInitiatorApplication $ \peer ptcl -> case ptcl of
+  $ OuroborosInitiatorApplication (ncSimpleInitiatorControl 60) $ \peer ptcl -> case ptcl of
       LocalTxSubmissionPtcl -> \channel -> do
         txv <- newEmptyTMVarM @_ @(GenTx blk)
-        runPeer
+        runPeer'
           localTxSubmissionTracer
           localTxSubmissionCodec
           peer
@@ -124,7 +126,7 @@ localInitiatorNetworkApplication Proxy chainSyncTracer localTxSubmissionTracer p
               (txSubmissionClient @(GenTx blk) txv))
 
       ChainSyncWithBlocksPtcl -> \channel ->
-        runPeer
+        runPeer'
           chainSyncTracer
           (localChainSyncCodec @blk pInfoConfig)
           peer

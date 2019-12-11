@@ -205,6 +205,12 @@ instance DefineSeverity (WithMuxBearer peer (MuxTrace ptcl)) where
     MuxTraceHandshakeServerError {}  -> Error
     MuxTraceRecvDeltaQObservation {} -> Debug
     MuxTraceRecvDeltaQSample {}      -> Info
+    MuxTraceBrooderResponderBrood {} -> Debug
+    MuxTraceBrooderResponderHatch {} -> Info
+    MuxTraceBrooderResponderDone {}  -> Info
+    MuxTraceBrooderInitiatorBrood {} -> Debug
+    MuxTraceBrooderInitiatorHatch {} -> Info
+    MuxTraceBrooderInitiatorDone {}  -> Info
 
 instance DefinePrivacyAnnotation (WithTip blk (ChainDB.TraceEvent blk))
 instance DefineSeverity (WithTip blk (ChainDB.TraceEvent blk)) where
