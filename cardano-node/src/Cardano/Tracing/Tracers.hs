@@ -353,6 +353,9 @@ mkTracers traceOptions tracer = do
       { ptChainSyncTracer
         = enableProtocolTracer ptChainSyncTracer
         $ withName "ChainSyncProtocol" tracer
+      , ptChainSyncSerialisedTracer
+        = enableProtocolTracer ptChainSyncTracer
+        $ withName "ChainSyncProtocol" tracer
       , ptBlockFetchTracer
         = enableProtocolTracer ptBlockFetchTracer
         $ withName "BlockFetchProtocol" tracer

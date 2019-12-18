@@ -494,6 +494,7 @@ parseTraceLocalTxSubmissionProtocol m =
 parseProtocolTraceOptions :: MParser ProtocolTraceOptions
 parseProtocolTraceOptions m = ProtocolTracers
   <$> (Const <$> parseTraceChainSyncProtocol m)
+  <*> (Const <$> parseTraceChainSyncProtocol m)
       -- There's two variants of the block fetch tracer and for now
       -- at least we'll set them both together from the same flags.
   <*> (Const <$> parseTraceBlockFetchProtocol m)
