@@ -21,7 +21,7 @@ module Cardano.Node.Run
 where
 
 import           Cardano.Prelude hiding (ByteString, atomically, take, trace)
-import           Prelude (error, id, unlines)
+import           Prelude (String, error, id, unlines)
 
 #ifdef UNIX
 import qualified Control.Concurrent.Async as Async
@@ -83,17 +83,19 @@ runNode
   -> NodeConfiguration
   -> NodeCLI
   -> IO ()
-runNode loggingLayer nc nCli = do
-    hn <- hostname
-    let !trace = setHostname hn $
-                 llAppendName loggingLayer "node" (llBasicTrace loggingLayer)
-    let tracer = contramap pack $ toLogObject trace
+runNode _loggingLayer nc nCli = do
+    -- hn <- hostname
+    -- let !trace = setHostname hn $
+    --              llAppendName loggingLayer "node" (llBasicTrace loggingLayer)
+    let trace :: Tracer IO (LogObject Text)
+        trace = nullTracer
+    -- let tracer = contramap pack $ toLogObject trace
 
-    traceWith tracer $ "tracing verbosity = " ++
-                         case traceVerbosity $ traceOpts nCli of
-                             NormalVerbosity -> "normal"
-                             MinimalVerbosity -> "minimal"
-                             MaximalVerbosity -> "maximal"
+    -- traceWith tracer $ "tracing verbosity = " ++
+    --                      case traceVerbosity $ traceOpts nCli of
+    --                          NormalVerbosity -> "normal"
+    --                          MinimalVerbosity -> "minimal"
+    --                          MaximalVerbosity -> "maximal"
     eitherSomeProtocol <- runExceptT $ fromProtocol
                                          (genesisHash nCli)
                                          (ncNodeId nc)
@@ -110,12 +112,13 @@ runNode loggingLayer nc nCli = do
                         Left err -> (putTextLn . pack $ show err) >> exitFailure
                         Right (SomeProtocol p) -> pure $ SomeProtocol p
 
-    tracers <- mkTracers (traceOpts nCli) trace
+    -- tracers <- mkTracers (traceOpts nCli) trace
+    let tracers = nullTracers
 
     case ncViewMode nc of
       SimpleView -> handleSimpleNode p trace tracers nCli nc
       LiveView   -> do
-#ifdef UNIX
+{- #ifdef UNIX
         let c = llConfiguration loggingLayer
         -- We run 'handleSimpleNode' as usual and run TUI thread as well.
         -- turn off logging to the console, only forward it through a pipe to a central logging process
@@ -131,10 +134,10 @@ runNode loggingLayer nc nCli = do
         setNodeThread be nodeThread
         captureCounters be trace
 
-        void $ Async.waitAny [nodeThread]
-#else
+        void $ Async.waitAny [nodeThread] -}
+{- #else -}
         handleSimpleNode p trace tracers nCli nc
-#endif
+{- #endif -}
   where
     hostname = do
       hn0 <- pack <$> getHostName
@@ -150,13 +153,15 @@ handleSimpleNode :: forall blk. RunNode blk
                  -> NodeCLI
                  -> NodeConfiguration
                  -> IO ()
-handleSimpleNode p trace nodeTracers nCli nc = do
+handleSimpleNode p _trace nodeTracers nCli nc = do
     NetworkTopology nodeSetups <-
       either error id <$> readTopologyFile (unTopology . topFile $ mscFp nCli)
 
     let pInfo@ProtocolInfo{ pInfoConfig = cfg } = protocolInfo p
 
-    let tracer = contramap pack $ toLogObject trace
+    -- let tracer = contramap pack $ toLogObject trace
+    let tracer :: Tracer IO String
+        tracer = nullTracer
     traceWith tracer $
       "System started at " <> show (nodeStartTime (Proxy @blk) cfg)
 

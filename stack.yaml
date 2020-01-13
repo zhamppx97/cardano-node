@@ -1,12 +1,12 @@
 resolver: https://raw.githubusercontent.com/input-output-hk/cardano-prelude/00487726c4bc21b4744e59d913334ebfeac7d68e/snapshot.yaml
 
-packages:
-  - cardano-config
-  - cardano-node
-
 ghc-options:
   cardano-config:   -Wall -fwarn-redundant-constraints
   cardano-node:     -Wall -fwarn-redundant-constraints
+
+packages:
+  - cardano-config
+  - cardano-node
 
 extra-deps:
   - binary-0.8.7.0
@@ -71,7 +71,7 @@ extra-deps:
 
     # iohk-monitoring-framework currently not pinned to a release
   - git: https://github.com/input-output-hk/iohk-monitoring-framework
-    commit: c35f302ad39568b9813f20a0108049627bd7ace0
+    commit: d5eb7ee92f0974aed5ac4a57a9bf5697ec065b7d
     subdirs:
       - contra-tracer
       - iohk-monitoring
@@ -105,5 +105,14 @@ extra-deps:
         - typed-protocols
         - typed-protocols-cbor
 
+          #nix:
+          #shell-file: nix/stack-shell.nix
 nix:
-  shell-file: nix/stack-shell.nix
+  pure: true
+  packages: [ zlib.dev, zlib.out
+            , openssl.dev, openssl.out
+            , haskell.compiler.ghc865
+            , pkg-config
+            , systemd.dev
+            ]
+

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-# >> cpu time limit in seconds
-CPU_TIME_LIMIT=$((1*60*60))
+# >> time limit in seconds
+TIME_LIMIT=$((10*60))
 
 BASEDIR=`pwd`
 
@@ -19,14 +19,15 @@ rm node-0*
 
 #set -euo pipefail
 
-ulimit -t $CPU_TIME_LIMIT
+# adjust for nicer colors
+TERM=xterm-256color
 
 date --iso-8601=seconds > STARTTIME
 
 NODE="cabal v2-run exe:cardano-node -- "
-NODE="stack --nix exec cardano-node -- "
+NODE="stack --nix --profile exec cardano-node -- "
 
-exec ${NODE} \
+exec timeout $TIME_LIMIT ${NODE} \
   --genesis-file ${BASEDIR}/../../configuration/mainnet-genesis.json \
   --genesis-hash "5f20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb" \
   --config ${BASEDIR}/configuration/log-configuration.yaml \
@@ -40,9 +41,28 @@ exec ${NODE} \
   --trace-mempool \
   --trace-chain-db \
   --trace-forge \
-   \
- $@
+  \
+  +RTS -hc -N1 -A10m -qg -qb -M300M -RTS \
+  \
+ $@  &
 
+#  +RTS -hc -N2 -A10m -qg -qb -M3G -RTS \
+
+sleep 2
+ps x | grep cardano-node | grep log-configuration.yaml | grep -v timeout
+sleep 2
+ps x | grep cardano-node | grep log-configuration.yaml | grep -v timeout
+sleep 1
+CARDANOPID=$(ps x | grep cardano-node | grep log-configuration.yaml | grep -v timeout | sed -ne 's/^ *\([0-9]\+\) .*/\1/p;')
+echo $CARDANOPID
+
+set -e
+echo "memory (MB) every 3 seconds"
+while [ TRUE ]; do PAGES=`cat /proc/${CARDANOPID}/statm | cut -d ' ' -f 2`; echo $((PAGES * 4096 / 1024 / 1024)) ; sleep 3; done
+
+#  +RTS -s -N2 -G3 -A10m -qg2 -qb -M1G -RTS \
+#  +RTS -h  -RTS \
+#  +RTS -xc  -RTS \
 #  --socket-dir ${BASEDIR}/${DATADIR}/socket \
 # this will render the events in textual format
 #  --trace-chain-db \

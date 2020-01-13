@@ -76,17 +76,17 @@ initializeAllFeatures
 initializeAllFeatures nCli@NodeCLI { configFp = ncFp }
                        cardanoEnvironment = do
 
-    (loggingLayer, loggingFeature) <- createLoggingFeature cardanoEnvironment nCli
+    -- (loggingLayer, loggingFeature) <- createLoggingFeature cardanoEnvironment nCli
 
     nodeConfig <- parseNodeConfiguration $ unConfigPath ncFp
     (nodeLayer   , nodeFeature)    <-
       createNodeFeature
-        loggingLayer
+        (panic "logginLayer") -- loggingLayer
         cardanoEnvironment
         nodeConfig
         nCli
 
-    pure ([ loggingFeature
-          , nodeFeature
+    pure ([ {- loggingFeature
+          , -} nodeFeature
           ] :: [CardanoFeature]
          , nodeLayer)
