@@ -253,13 +253,13 @@ handleSimpleNode p _trace nodeTracers nCli nc = do
       isProducer
       customiseChainDbArgs
       id -- No NodeParams customisation
-      $ \registry nodeKernel -> do
+      $ \registry nodeKernel -> pure () {- do
         -- Watch the tip of the chain and store it in @varTip@ so we can include
         -- it in trace messages.
         let chainDB = getChainDB nodeKernel
         void $ onEachChange registry id Nothing
                             (ChainDB.getTipPoint chainDB) $ \tip ->
-          atomically $ writeTVar varTip tip
+          atomically $ writeTVar varTip tip -}
   where
     nid :: Int
     nid = case ncNodeId nc of
