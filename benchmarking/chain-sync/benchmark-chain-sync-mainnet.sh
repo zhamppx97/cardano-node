@@ -3,7 +3,7 @@
 # >> time limit in seconds
 TIME_LIMIT=$((10*60))
 
-BASEDIR=`pwd`
+BASEDIR=$(realpath $(dirname $0))
 
 DATADIR=state-node-mainnet
 mkdir -p $DATADIR
@@ -26,6 +26,7 @@ date --iso-8601=seconds > STARTTIME
 
 NODE="cabal v2-run exe:cardano-node -- "
 NODE="stack --nix --profile exec cardano-node -- "
+NODE="${BASEDIR}/../../../../bin/cardano-node "
 
 exec timeout $TIME_LIMIT ${NODE} \
   --genesis-file ${BASEDIR}/../../configuration/mainnet-genesis.json \
@@ -42,9 +43,9 @@ exec timeout $TIME_LIMIT ${NODE} \
   --trace-chain-db \
   --trace-forge \
   \
-  +RTS -hc -N1 -A10m -qg -qb -M300M -RTS \
+  +RTS -hc -L90 -p -N1 -A10m -qg -qb -M3G -RTS \
   \
- $@  &
+ $@ & 
 
 #  +RTS -hc -N2 -A10m -qg -qb -M3G -RTS \
 

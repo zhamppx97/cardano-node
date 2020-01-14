@@ -95,9 +95,10 @@ Protocol: RealPBFT
 NumCoreNodes: 1
 RequiresNetworkMagic: RequiresNoMagic
 PBftSignatureThreshold: 0.5
-TurnOnLogging: True
-ViewMode: LiveView
-TurnOnLogMetrics: True
+TurnOnLogging: False
+#ViewMode: LiveView
+ViewMode: SimpleView
+TurnOnLogMetrics: False
 
 
 #####    Update Parameters    #####
