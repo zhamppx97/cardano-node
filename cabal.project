@@ -110,49 +110,49 @@ source-repository-package
   type: git
   location: https://github.com/input-output-hk/iohk-monitoring-framework
   subdir: iohk-monitoring
-  tag: 72818632b88dde4c8c65c744b580a738983c7c48
+  tag: a188f42b313aec1f0a35355ef7b520245b1e8203
 
 source-repository-package
   type: git
   location: https://github.com/input-output-hk/iohk-monitoring-framework
   subdir:   contra-tracer
-  tag: 15e7df23462d4840d4ad04e8c33d6a65041c4857
+  tag: a188f42b313aec1f0a35355ef7b520245b1e8203
 
 source-repository-package
   type: git
   location: https://github.com/input-output-hk/iohk-monitoring-framework
   subdir:   plugins/scribe-systemd
-  tag: 15e7df23462d4840d4ad04e8c33d6a65041c4857
+  tag: a188f42b313aec1f0a35355ef7b520245b1e8203
 
 source-repository-package
   type: git
   location: https://github.com/input-output-hk/iohk-monitoring-framework
   subdir:   plugins/backend-aggregation
-  tag: 15e7df23462d4840d4ad04e8c33d6a65041c4857
+  tag: a188f42b313aec1f0a35355ef7b520245b1e8203
 
 source-repository-package
   type: git
   location: https://github.com/input-output-hk/iohk-monitoring-framework
   subdir:   plugins/backend-editor
-  tag: 15e7df23462d4840d4ad04e8c33d6a65041c4857
+  tag: a188f42b313aec1f0a35355ef7b520245b1e8203
 
 source-repository-package
   type: git
   location: https://github.com/input-output-hk/iohk-monitoring-framework
   subdir:   plugins/backend-ekg
-  tag: 15e7df23462d4840d4ad04e8c33d6a65041c4857
+  tag: a188f42b313aec1f0a35355ef7b520245b1e8203
 
 source-repository-package
   type: git
   location: https://github.com/input-output-hk/iohk-monitoring-framework
   subdir:   plugins/backend-monitoring
-  tag: 15e7df23462d4840d4ad04e8c33d6a65041c4857
+  tag: a188f42b313aec1f0a35355ef7b520245b1e8203
 
 source-repository-package
   type: git
   location: https://github.com/input-output-hk/iohk-monitoring-framework
   subdir:   tracer-transformers
-  tag: 15e7df23462d4840d4ad04e8c33d6a65041c4857
+  tag: a188f42b313aec1f0a35355ef7b520245b1e8203
 
 -- dependencies of iohk-monitoring
 --source-repository-package
