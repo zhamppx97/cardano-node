@@ -271,7 +271,7 @@ startCapturingMetrics trace0 = do
   _ <- Async.async $ forever $ do
               cts <- readCounters (ObservableTraceSelf counters)
               traceCounters trace cts
-              threadDelay 30000000   -- 30 seconds
+              threadDelay 5000000   -- 5 seconds
   pure ()
  where
   traceCounters :: forall m a. MonadIO m => Trace m a -> [Counter] -> m ()
