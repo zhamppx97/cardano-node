@@ -47,6 +47,7 @@ import qualified Cardano.Chain.Update as Update
 import           Cardano.Crypto.ProtocolMagic (RequiresNetworkMagic)
 import           Ouroboros.Consensus.NodeId (NodeId(..))
 import           Ouroboros.Consensus.Util.Condense (Condense (..))
+import           Ouroboros.Network.Block (MaxSlotNo(..))
 
 import           Cardano.Config.Orphanage ()
 import           Cardano.Config.TraceConfig
@@ -87,6 +88,7 @@ data NodeCLI = NodeCLI
   , configFp :: !ConfigYamlFilePath
   , validateDB :: !Bool
   , shutdownIPC :: !(Maybe Fd)
+  , shutdownOnSlotSynced :: !MaxSlotNo
   }
 
 data NodeMockCLI = NodeMockCLI
@@ -94,6 +96,7 @@ data NodeMockCLI = NodeMockCLI
   , mockNodeAddr :: !NodeAddress
   , mockConfigFp :: !ConfigYamlFilePath
   , mockValidateDB :: !Bool
+  , mockShutdownOnSlotSynced :: !MaxSlotNo
   } deriving Show
 
 -- | Mock protocols requires different parameters to real protocols.
