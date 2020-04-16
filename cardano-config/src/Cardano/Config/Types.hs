@@ -194,7 +194,7 @@ instance FromJSON NodeConfiguration where
                 -- Logging
                 loggingSwitch <- v .:? "TurnOnLogging" .!= True
                 logMetrics <- v .:? "TurnOnLogMetrics" .!= True
-                traceConfig <- if not loggingSwitch
+                traceConfig <- if False
                                then pure traceConfigMute
                                else traceConfigParser v
 
