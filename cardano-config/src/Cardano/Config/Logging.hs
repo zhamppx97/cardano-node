@@ -41,10 +41,12 @@ import qualified Cardano.BM.Configuration.Model as Config
 import           Cardano.BM.Data.Backend (Backend, BackendKind)
 import           Cardano.BM.Data.Counter
 import           Cardano.BM.Data.LogItem ( LOContent (..), LOMeta (..),
-                    LoggerName, PrivacyAnnotation (..), mkLOMeta)
+                    LoggerName, PrivacyAnnotation (..),
+                    mkLOMeta, unitLoggerName)
 import           Cardano.BM.Data.Observable
 import           Cardano.BM.Data.Severity (Severity (..))
 import           Cardano.BM.Data.SubTrace
+import           Cardano.BM.Data.Trace
 import qualified Cardano.BM.Observer.Monadic as Monadic
 import qualified Cardano.BM.Observer.STM as Stm
 import           Cardano.BM.Plugin (loadPlugin)
@@ -80,17 +82,22 @@ data LoggingLayer = LoggingLayer
   , llLogNotice :: forall m a. (MonadIO m, Show a) => Trace m a -> a -> m ()
   , llLogWarning :: forall m a. (MonadIO m, Show a) => Trace m a -> a -> m ()
   , llLogError :: forall m a. (MonadIO m, Show a) => Trace m a -> a -> m ()
-  , llAppendName :: forall m a. (Show a) => LoggerName -> Trace m a -> Trace m a
-  , llBracketMonadIO :: forall a t. (Show a) => Trace IO a -> Severity -> Text -> IO t -> IO t
+  , llAppendName :: forall m a. (Show a) => Text -> Trace m a -> Trace m a
+  , llBracketMonadIO
+      :: forall a t. (Show a)
+      => Trace IO a -> Severity -> LoggerName -> IO t -> IO t
   , llBracketMonadM
       :: forall m a t. (MonadCatch m, MonadIO m, Show a)
-      => Trace m a -> Severity -> Text -> m t -> m t
+      => Trace m a -> Severity -> LoggerName -> m t -> m t
   , llBracketMonadX
-      :: forall m a t. (MonadIO m, Show a) => Trace m a -> Severity -> Text -> m t -> m t
-  , llBracketStmIO :: forall a t. (Show a) => Trace IO a -> Severity -> Text -> STM t -> IO t
+      :: forall m a t. (MonadIO m, Show a)
+      => Trace m a -> Severity -> LoggerName -> m t -> m t
+  , llBracketStmIO
+      :: forall a t. (Show a)
+      => Trace IO a -> Severity -> LoggerName -> STM t -> IO t
   , llBracketStmLogIO
       :: forall a t. (Show a)
-      => Trace IO a -> Severity -> Text -> STM (t,[(LOMeta, LOContent a)]) -> IO t
+      => Trace IO a -> Severity -> LoggerName -> STM (t,[(LOMeta, LOContent a)]) -> IO t
   , llConfiguration :: Configuration
   , llAddBackend :: Backend Text -> BackendKind -> IO ()
   }
@@ -145,7 +152,8 @@ createLoggingFeature ver _ nodeProtocolMode = do
       trace :: Trace IO Text
       trace = if loggingEnabled
               then baseTrace
-              else Trace.nullTracer
+              else Trace (TraceStatic {loggerName = unitLoggerName "0"})
+                         Trace.nullTracer
 
   when loggingEnabled $ liftIO $
     loggingPreInit nodeConfig logConfig switchBoard trace

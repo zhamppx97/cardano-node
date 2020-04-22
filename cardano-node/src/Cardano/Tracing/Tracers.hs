@@ -20,6 +20,8 @@ module Cardano.Tracing.Tracers
   , nullTracers
   ) where
 
+import           Data.IORef (IORef, newIORef, atomicModifyIORef')
+
 import           Cardano.Prelude hiding (atomically)
 import           Prelude (String)
 
@@ -34,10 +36,12 @@ import qualified Network.Socket as Socket (SockAddr)
 import           Cardano.BM.Data.Aggregated (Measurable (..))
 import           Cardano.BM.Data.LogItem (LOContent (..), LoggerName,
                                           PrivacyAnnotation (Confidential),
+                                          LOMeta,
                                           mkLOMeta)
 import           Cardano.BM.ElidingTracer
 import           Cardano.BM.Tracing
 import           Cardano.BM.Trace (traceNamedObject, appendName)
+import           Cardano.BM.Data.Trace
 import           Cardano.BM.Data.Tracer (WithSeverity (..), annotateSeverity)
 import           Cardano.BM.Data.Transformers
 
@@ -70,7 +74,7 @@ import           Cardano.Config.Protocol (TraceConstraints)
 import           Cardano.Config.TraceConfig
 import           Cardano.Tracing.MicroBenchmarking
 
-import           Control.Tracer.Transformers
+import           Control.Tracer.Transformers hiding (counting)
 
 data Tracers peer localPeer blk = Tracers
   { -- | Trace the ChainDB
@@ -188,6 +192,23 @@ instance (StandardHash header, Eq peer) => ElidingTracer
           traceNamedObject tr (meta, LogValue "messages elided so far" (PureI $ toInteger count))
       return (Just ev, count + 1)
 
+counting
+  :: forall m a . (MonadIO m)
+  => Text -> LOMeta -> Trace m a -> m (Trace m a)
+counting name meta tr@Trace{traceTracer} =
+  mkCounting <$> liftIO (newIORef 0)
+ where
+    mkCounting :: IORef Int -> Trace m a
+    mkCounting ctrref =
+      tr { traceTracer =
+           Tracer $ \(ts, _) -> do
+             -- TODO | API: again, see how fragile passing of 'ts' is.
+             ctr <- liftIO $ atomicModifyIORef' ctrref $ \n -> join (,) (n + 1)
+             traceWith traceTracer
+               ( ts
+               , LogObject (loggerName ts) meta
+                 . LogValue name . PureI $ fromIntegral ctr) }
+
 -- | Smart constructor of 'NodeTraces'.
 --
 mkTracers
@@ -204,19 +225,18 @@ mkTracers
 mkTracers traceConf tracer = do
   -- We probably don't want to pay the extra IO cost per-counter-increment. -- sk
   staticMetaCC <- mkLOMeta Critical Confidential
-  let name :: LoggerName = "metrics.Forge"
   forgeTracers <-
     ForgeTracers
-      <$> (counting $ liftCounting staticMetaCC name "forged" tracer)
-      <*> (counting $ liftCounting staticMetaCC name "forge-about-to-lead" tracer)
-      <*> (counting $ liftCounting staticMetaCC name "could-not-forge" tracer)
-      <*> (counting $ liftCounting staticMetaCC name "adopted" tracer)
-      <*> (counting $ liftCounting staticMetaCC name "didnt-adopt" tracer)
-      <*> (counting $ liftCounting staticMetaCC name "forged-invalid" tracer)
-      <*> (counting $ liftCounting staticMetaCC name "node-not-leader" tracer)
-      <*> (counting $ liftCounting staticMetaCC name "block-from-future" tracer)
-      <*> (counting $ liftCounting staticMetaCC name "slot-is-immutable" tracer)
-      <*> (counting $ liftCounting staticMetaCC name "node-is-leader" tracer)
+      <$> (counting "forged" staticMetaCC tracer)
+      <*> (counting "forge-about-to-lead" staticMetaCC tracer)
+      <*> (counting "could-not-forge" staticMetaCC tracer)
+      <*> (counting "adopted" staticMetaCC tracer)
+      <*> (counting "didnt-adopt" staticMetaCC tracer)
+      <*> (counting "forged-invalid" staticMetaCC tracer)
+      <*> (counting "node-not-leader" staticMetaCC tracer)
+      <*> (counting "block-from-future" staticMetaCC tracer)
+      <*> (counting "slot-is-immutable" staticMetaCC tracer)
+      <*> (counting "node-is-leader" staticMetaCC tracer)
 
   -- prepare |Outcome|
   blockForgeOutcomeExtractor <- mkOutcomeExtractor

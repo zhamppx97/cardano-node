@@ -22,6 +22,7 @@ import           Cardano.Api.TxSubmit.TxSubmitVar
 import           Cardano.Api.TxSubmit.Types
 import           Cardano.Api.Types
 
+import           Cardano.BM.Data.Trace (nullTrace)
 import           Cardano.BM.Data.Tracer (ToLogObject (..), nullTracer)
 import           Cardano.BM.Trace (Trace, appendName, logInfo)
 
@@ -79,7 +80,7 @@ submitTransaction :: NodeApiEnv -> TxSigned -> IO TxSubmitStatus
 submitTransaction nodeEnv txs = do
   tvar <- newTxSubmitVar
   res <- race
-            (runTxSubmitNode tvar nullTracer (naeConfig nodeEnv) (naeSocket nodeEnv))
+            (runTxSubmitNode tvar nullTrace (naeConfig nodeEnv) (naeSocket nodeEnv))
             (submitTx tvar $ prepareTx txs)
   case res of
     Left _ -> panic "Cardano.Api.TxSubmit.submitTransaction: runTxSubmitNode terminated unexpectedly."

@@ -11,6 +11,7 @@
 {-# LANGUAGE NamedFieldPuns        #-}
 {-# LANGUAGE OverloadedStrings     #-}
 {-# LANGUAGE RankNTypes            #-}
+{-# LANGUAGE ViewPatterns          #-}
 
 {-# OPTIONS_GHC -Wno-redundant-constraints #-}
 
@@ -71,7 +72,7 @@ import           Cardano.BM.Data.Counter
 import           Cardano.BM.Data.LogItem (LOContent (..), LOMeta (..),
                                           LogObject (..),
                                           PrivacyAnnotation (Confidential),
-                                          mkLOMeta, utc2ns)
+                                          loggerNameText, mkLOMeta, utc2ns)
 import           Cardano.BM.Data.Observable
 import           Cardano.BM.Data.Severity
 import           Cardano.BM.Data.SubTrace
@@ -260,7 +261,7 @@ instance IsEffectuator (LiveViewBackend blk) Text where
         checkForUnexpectedThunks ["IsEffectuator LiveViewBackend"] lvbe
 
         case item of
-            LogObject "cardano.node.metrics" meta content -> do
+            LogObject (loggerNameText -> "cardano.node.metrics") meta content -> do
                 case content of
                     LogValue "Mem.resident" (PureI pages) ->
                         let !mbytes     = fromIntegral (pages * pagesize) / 1024 / 1024 :: Float
