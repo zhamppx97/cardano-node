@@ -5,8 +5,12 @@ packages:
     cardano-cli
     cardano-config
     cardano-node
+    cardano-cluster
 
 package cardano-config
+  ghc-options: -Wall -fwarn-redundant-constraints
+
+package cardano-cluster
   ghc-options: -Wall -fwarn-redundant-constraints
 
 package cardano-node

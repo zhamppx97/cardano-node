@@ -1,0 +1,71 @@
+name:                  cardano-cluster
+version:               1.11.0
+description:           Run a testing cluster of multiple cardano nodes on a single machine.
+author:                IOHK
+maintainer:            operations@iohk.io
+license:               Apache-2.0
+license-files:
+  LICENSE
+  NOTICE
+build-type:            Simple
+cabal-version:         >= 1.10
+extra-source-files:    README.md
+
+library
+
+  hs-source-dirs:      src
+
+  exposed-modules:     Cardano.Cluster
+
+  other-modules:       Cardano.Cluster.CliProcess
+                       Cardano.Cluster.Environment
+                       Cardano.Cluster.Find
+                       Cardano.Cluster.Topology
+
+  build-depends:       base >=4.12 && <5
+                     , aeson-pretty
+                     , bytestring
+                     , cardano-config
+                     , cardano-prelude
+                     , containers
+                     , directory
+                     , filepath
+                     , process
+                     , text
+                     , time
+                     , transformers
+                     , transformers-except
+                     , unix
+
+  default-language:    Haskell2010
+  default-extensions:  NoImplicitPrelude
+                       OverloadedStrings
+
+  ghc-options:         -Wall
+                       -Wincomplete-record-updates
+                       -Wincomplete-uni-patterns
+                       -Wredundant-constraints
+                       -Wpartial-fields
+                       -Wcompat
+
+  if os(windows)
+     build-depends:    Win32
+  else
+     build-depends:    unix
+
+executable cardano-cluster
+  hs-source-dirs:      app
+  main-is:             cardano-cluster.hs
+  default-language:    Haskell2010
+  ghc-options:         -threaded
+                       -Wall
+                       -rtsopts
+                       "-with-rtsopts=-T"
+  build-depends:       base >=4.12 && <5
+                     , cardano-cluster
+                     , cardano-node
+                     , cardano-prelude
+                     , optparse-applicative
+                     , transformers-except
+
+  default-extensions:  NoImplicitPrelude
