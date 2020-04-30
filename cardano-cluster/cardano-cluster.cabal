@@ -20,6 +20,7 @@ library
   other-modules:       Cardano.Cluster.CliProcess
                        Cardano.Cluster.Environment
                        Cardano.Cluster.Find
+                       Cardano.Cluster.NodeProcess
                        Cardano.Cluster.Topology
 
   build-depends:       base >=4.12 && <5
@@ -30,6 +31,7 @@ library
                      , containers
                      , directory
                      , filepath
+                     , lifted-async
                      , process
                      , text
                      , time
