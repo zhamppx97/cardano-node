@@ -75,6 +75,8 @@ runStakeAddressCmd (StakeKeyDelegationCert stkKeyVerKeyFp stkPoolVerKeyFp output
   runStakeKeyDelegationCert stkKeyVerKeyFp stkPoolVerKeyFp outputFp
 runStakeAddressCmd (StakeKeyDeRegistrationCert stkKeyVerKeyFp outputFp) =
   runStakeKeyDeRegistrationCert stkKeyVerKeyFp outputFp
+runStakeAddressCmd (StakeAddressKeyGen vkfile skfile) =
+  runStakeAddressKeyGen vkfile skfile
 runStakeAddressCmd cmd = liftIO $ putStrLn $ "runStakeAddressCmd: " ++ show cmd
 
 
@@ -232,6 +234,14 @@ runStakeKeyDeRegistrationCert (VerificationKeyFile vkFp) (OutputFile oFp) = do
   stakeVkey <- firstExceptT CardanoApiError . newExceptT $ readVerificationKeyStaking vkFp
   let deRegCert = shelleyDeregisterStakingAddress (hashKey stakeVkey)
   firstExceptT CardanoApiError . newExceptT $ writeCertificate oFp deRegCert
+
+runStakeAddressKeyGen :: VerificationKeyFile -> SigningKeyFile -> ExceptT CliError IO ()
+runStakeAddressKeyGen (VerificationKeyFile vkfile) (SigningKeyFile skfile) = do
+  (vkey, skey) <- liftIO genKeyPair
+  firstExceptT CardanoApiError . newExceptT $ writeVerificationKeyStaking vkfile vkey
+  --TODO: writeSigningKey should really come from Cardano.Config.Shelley.ColdKeys
+  firstExceptT CardanoApiError . newExceptT $ writeSigningKey skfile (SigningKeyShelley skey)
+
 
 --
 -- Stake pool command implementations

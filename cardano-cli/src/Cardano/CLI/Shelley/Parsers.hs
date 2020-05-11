@@ -92,6 +92,7 @@ data StakeAddressCmd
   | StakeKeyRegistrationCert VerificationKeyFile OutputFile
   | StakeKeyDelegationCert VerificationKeyFile VerificationKeyFile OutputFile
   | StakeKeyDeRegistrationCert VerificationKeyFile OutputFile
+  | StakeAddressKeyGen VerificationKeyFile SigningKeyFile
   deriving (Eq, Show)
 
 
@@ -363,6 +364,8 @@ pStakeAddress =
           (Opt.info pStakeAddressDeregistrationCert $ Opt.progDesc "Create a stake address deregistration certificate")
       , Opt.command "delegation-certificate"
           (Opt.info pStakeAddressDelegationCert $ Opt.progDesc "Create a stake address delegation certificate")
+      , Opt.command "key-gen"
+          (Opt.info pStakeAddressKeyGen $ Opt.progDesc "Create a key pair for a stake address")
       ]
   where
     pStakeAddressRegister :: Parser StakeAddressCmd
@@ -391,7 +394,9 @@ pStakeAddress =
                                     <*> pPoolStakingVerificationKeyFile
                                     <*> pOutputFile
 
-
+    pStakeAddressKeyGen :: Parser  StakeAddressCmd
+    pStakeAddressKeyGen =
+      StakeAddressKeyGen <$> pVerificationKeyFile Output <*> pSigningKeyFile Output
 
     pDelegationFee :: Parser Lovelace
     pDelegationFee =
