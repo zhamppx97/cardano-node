@@ -46,7 +46,7 @@ import           Ouroboros.Network.Block (unSlotNo)
 import qualified Ouroboros.Network.BlockFetch.ClientRegistry as Net
 import           Ouroboros.Network.BlockFetch.ClientState (PeerFetchInFlight (..), PeerFetchStatus (..), readFetchClientState)
 import           Ouroboros.Network.NodeToClient (LocalConnectionId)
-import           Ouroboros.Network.NodeToNode (RemoteConnectionId) 
+import           Ouroboros.Network.NodeToNode (RemoteConnectionId)
 
 import qualified Ouroboros.Consensus.Storage.ChainDB as ChainDB
 
@@ -155,18 +155,23 @@ getCurrentPeers nodeKernIORef = do
   extractPeers :: NodeKernel IO RemoteConnectionId LocalConnectionId blk
                 -> IO [Peer blk]
   extractPeers kernel = do
-    peerStates <- fmap tuple3pop <$> (   STM.atomically
-                                       . (>>= traverse readFetchClientState)
-                                       . Net.readFetchClientsStateVars
-                                       . getFetchClientRegistry $ kernel
-                                     )
-    candidates <- STM.atomically . getCandidates . getNodeCandidates $ kernel
+    peerStates <- fmap tuple3pop <$> ( STM.atomically
+                                          . (>>= traverse readFetchClientState)
+                                          . Net.readFetchClientsStateVars
+                                          $ getFetchClientRegistry kernel
+                                        )
+    candidates <- STM.atomically $ getCandidates (getNodeCandidates kernel)
 
-    let peers = flip Map.mapMaybeWithKey candidates $ \cid af ->
-                  maybe Nothing
-                        (\(status, inflight) -> Just $ Peer cid af status inflight)
-                        $ Map.lookup cid peerStates
-    pure . Map.elems $ peers
+    pure $ mapMaybe (mkPeer peerStates) $ Map.toList candidates
+
+  mkPeer
+    :: Map RemoteConnectionId (PeerFetchStatus (Header blk), PeerFetchInFlight (Header blk))
+    -> (RemoteConnectionId, Net.AnchoredFragment (Header blk))
+    -> Maybe (Peer blk)
+  mkPeer peerStates (cid, af) =
+    case Map.lookup cid peerStates of
+      Nothing -> Nothing
+      Just (status, inflight) -> Just $ Peer cid af status inflight
 
 -- | Trace peers list, it will be forwarded to an external process
 --   (for example, to RTView service).
