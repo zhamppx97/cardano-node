@@ -305,24 +305,26 @@ handleSimpleNode p trace nodeTracers npm onKernel = do
   withShutdownHandling npm trace $ \sfds ->
    Node.run
      RunNodeArgs {
-       rnTraceConsensus       = consensusTracers nodeTracers,
-       rnTraceNTN             = nodeToNodeTracers nodeTracers,
-       rnTraceNTC             = nodeToClientTracers nodeTracers,
-       rnTraceDB              = chainDBTracer nodeTracers,
-       rnTraceDiffusion       = diffusionTracers,
-       rnDiffusionArguments   = diffusionArguments,
-       rnNetworkMagic         = getNetworkMagic (Consensus.configBlock cfg),
-       rnDatabasePath         = dbPath,
-       rnProtocolInfo         = pInfo,
-       rnCustomiseChainDbArgs = customiseChainDbArgs $ validateDB npm,
-       rnCustomiseNodeArgs    = identity,
-       rnNodeToNodeVersions   = supportedNodeToNodeVersions (Proxy @blk),
-       rnNodeToClientVersions = supportedNodeToClientVersions (Proxy @blk),
-       rnNodeKernelHook       = \registry nodeKernel -> do
+       rnTraceConsensus         = consensusTracers nodeTracers,
+       rnTraceNTN               = nodeToNodeTracers nodeTracers,
+       rnTraceNTC               = nodeToClientTracers nodeTracers,
+       rnTraceDB                = chainDBTracer nodeTracers,
+       rnTraceDiffusion         = diffusionTracers,
+       rnDiffusionArguments     = diffusionArguments,
+       rnNetworkMagic           = getNetworkMagic (Consensus.configBlock cfg),
+       rnDatabasePath           = dbPath,
+       rnProtocolInfo           = pInfo,
+       rnCustomiseChainDbArgs   = customiseChainDbArgs $ validateDB npm,
+       rnCustomiseNodeArgs      = identity,
+       rnNodeToNodeVersions     = supportedNodeToNodeVersions (Proxy @blk),
+       rnNodeToClientVersions   = supportedNodeToClientVersions (Proxy @blk),
+       rnNodeKernelHook         = \registry nodeKernel -> do
          maybeSpawnOnSlotSyncedShutdownHandler npm sfds trace registry
            (Node.getChainDB nodeKernel)
          onKernel nodeKernel,
-       rnMaxClockSkew         = defaultClockSkew
+       rnMaxClockSkew           = defaultClockSkew,
+       rnMaxConcurrencyBulkSync = unMaxConcerrencyBulkSync $ ncMaxConcerrencyBulkSync nc,
+       rnMaxConcurrencyDeadline = unMaxConcerrencyDeadline $ ncMaxConcerrencyDeadline nc
     }
  where
   customiseChainDbArgs :: Bool

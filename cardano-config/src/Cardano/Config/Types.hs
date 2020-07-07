@@ -44,6 +44,8 @@ module Cardano.Config.Types
     , TopologyFile (..)
     , TraceConstraints
     , SocketPath (..)
+    , MaxConcerrencyBulkSync (..)
+    , MaxConcerrencyDeadline (..)
     , UpdateProposalFile (..)
     , ViewMode (..)
     , Fd (..)
@@ -212,6 +214,17 @@ newtype SigningKeyFile = SigningKeyFile
   deriving stock (Eq, Ord)
   deriving newtype (IsString, Show)
 
+newtype MaxConcerrencyBulkSync = MaxConcerrencyBulkSync
+  { unMaxConcerrencyBulkSync :: Word }
+  deriving stock (Eq, Ord)
+  deriving newtype (FromJSON, Show)
+
+newtype MaxConcerrencyDeadline = MaxConcerrencyDeadline
+  { unMaxConcerrencyDeadline :: Word }
+  deriving stock (Eq, Ord)
+  deriving newtype (FromJSON, Show)
+
+
 data NodeConfiguration =
      NodeConfiguration {
        -- Protocol-specific parameters:
@@ -219,6 +232,8 @@ data NodeConfiguration =
 
        -- Node parameters, not protocol-specific:
      , ncSocketPath     :: Maybe SocketPath
+     , ncMaxConcerrencyBulkSync :: MaxConcerrencyBulkSync
+     , ncMaxConcerrencyDeadline :: MaxConcerrencyDeadline
 
        -- Logging parameters:
      , ncViewMode       :: ViewMode
@@ -296,6 +311,8 @@ instance FromJSON NodeConfiguration where
 
       -- Node parameters, not protocol-specific
       ncSocketPath <- v .:? "SocketPath"
+      ncMaxConcerrencyBulkSync <- v .: "MaxConcerrencyBulkSync" .!= MaxConcerrencyBulkSync 1
+      ncMaxConcerrencyDeadline <- v .: "MaxConcerrencyDeadline" .!= MaxConcerrencyDeadline 2
 
       -- Logging parameters
       ncViewMode      <- v .:? "ViewMode"         .!= SimpleView
@@ -324,6 +341,8 @@ instance FromJSON NodeConfiguration where
       pure NodeConfiguration {
              ncProtocolConfig
            , ncSocketPath
+           , ncMaxConcerrencyBulkSync
+           , ncMaxConcerrencyDeadline
            , ncViewMode
            , ncLoggingSwitch
            , ncLogMetrics
