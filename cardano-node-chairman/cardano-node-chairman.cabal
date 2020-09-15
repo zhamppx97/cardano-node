@@ -34,11 +34,6 @@ library
   exposed-modules:      Chairman.Aeson
                         Chairman.CallStack
                         Chairman.Cli
-                        Chairman.Hedgehog.Base
-                        Chairman.Hedgehog.Concurrent
-                        Chairman.Hedgehog.File
-                        Chairman.Hedgehog.Network
-                        Chairman.Hedgehog.Process
                         Chairman.IO.File
                         Chairman.IO.Network.NamedPipe
                         Chairman.IO.Network.Socket
@@ -49,6 +44,11 @@ library
                         Chairman.Plan
                         Chairman.String
                         Chairman.Time
+                        Hedgehog.Extras.Test.Base
+                        Hedgehog.Extras.Test.Concurrent
+                        Hedgehog.Extras.Test.File
+                        Hedgehog.Extras.Test.Network
+                        Hedgehog.Extras.Test.Process
   default-language:     Haskell2010
   default-extensions:   NoImplicitPrelude
   ghc-options:          -Wall

@@ -22,9 +22,6 @@ import           Hedgehog (Property, discover)
 import           System.IO (IO)
 import           Text.Show
 
-import qualified Chairman.Hedgehog.Base as H
-import qualified Chairman.Hedgehog.File as H
-import qualified Chairman.Hedgehog.Process as H
 import qualified Chairman.IO.File as IO
 import qualified Chairman.IO.Network.Socket as IO
 import qualified Chairman.IO.Network.Sprocket as IO
@@ -32,6 +29,9 @@ import qualified Chairman.String as S
 import qualified Data.List as L
 import qualified Data.Time.Clock as DTC
 import qualified Hedgehog as H
+import qualified Hedgehog.Extras.Test.Base as H
+import qualified Hedgehog.Extras.Test.File as H
+import qualified Hedgehog.Extras.Test.Process as H
 import qualified System.FilePath.Posix as FP
 import qualified System.Info as OS
 import qualified System.IO as IO

@@ -36,10 +36,6 @@ import           Text.Read
 import           Text.Show
 
 import qualified Chairman.Aeson as J
-import qualified Chairman.Hedgehog.Base as H
-import qualified Chairman.Hedgehog.Concurrent as H
-import qualified Chairman.Hedgehog.File as H
-import qualified Chairman.Hedgehog.Process as H
 import qualified Chairman.IO.File as IO
 import qualified Chairman.IO.Network.Socket as IO
 import qualified Chairman.IO.Network.Sprocket as IO
@@ -51,6 +47,10 @@ import qualified Data.List as L
 import qualified Data.Map as M
 import qualified Data.Time.Clock as DTC
 import qualified Hedgehog as H
+import qualified Hedgehog.Extras.Test.Base as H
+import qualified Hedgehog.Extras.Test.Concurrent as H
+import qualified Hedgehog.Extras.Test.File as H
+import qualified Hedgehog.Extras.Test.Process as H
 import qualified System.Directory as IO
 import qualified System.Environment as IO
 import qualified System.FilePath.Posix as FP

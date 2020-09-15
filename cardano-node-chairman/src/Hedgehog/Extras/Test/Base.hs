@@ -1,6 +1,6 @@
 {-# LANGUAGE BangPatterns #-}
 
-module Chairman.Hedgehog.Base
+module Hedgehog.Extras.Test.Base
   ( propertyOnce
 
   , workspace

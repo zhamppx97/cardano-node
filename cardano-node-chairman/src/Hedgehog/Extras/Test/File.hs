@@ -1,6 +1,6 @@
 {-# LANGUAGE TypeApplications #-}
 
-module Chairman.Hedgehog.File
+module Hedgehog.Extras.Test.File
   ( createDirectoryIfMissing
   , copyFile
   , renameFile
@@ -37,11 +37,11 @@ import           Hedgehog (MonadTest)
 import           System.IO (FilePath, Handle, IOMode)
 import           Text.Show
 
-import qualified Chairman.Hedgehog.Base as H
 import qualified Data.ByteString.Lazy as LBS
 import qualified Data.List as L
 import qualified GHC.Stack as GHC
 import qualified Hedgehog as H
+import qualified Hedgehog.Extras.Test.Base as H
 import qualified System.Directory as IO
 import qualified System.IO as IO
 
