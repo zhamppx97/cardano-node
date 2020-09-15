@@ -5,11 +5,8 @@
 module Hedgehog.Extras.Test.Process
   ( createProcess
   , execFlex
+  , procFlex
   , getProjectBase
-  , procChairman
-  , procCli
-  , procNode
-  , execCli
   , waitForProcess
   , maybeWaitForProcess
   , getPid
@@ -108,13 +105,6 @@ execFlex pkgBin envBin arguments = GHC.withFrozenCallStack $ do
       ]
     IO.ExitSuccess -> return stdout
 
--- | Run cardano-cli, returning the stdout
-execCli
-  :: (MonadTest m, MonadCatch m, MonadIO m, HasCallStack)
-  => [String]
-  -> m String
-execCli = GHC.withFrozenCallStack $ execFlex "cardano-cli" "CARDANO_CLI"
-
 -- | Wait for process to exit.
 waitForProcess
   :: (MonadTest m, MonadIO m, HasCallStack)
@@ -202,36 +192,6 @@ procFlex pkg binaryEnv arguments = GHC.withFrozenCallStack . H.evalM $ do
   case maybeEnvBin of
     Just envBin -> return $ IO.proc envBin arguments
     Nothing -> procDist pkg arguments
-
--- | Create a 'CreateProcess' describing how to start the cardano-cli process
--- and an argument list.
-procCli
-  :: (MonadTest m, MonadCatch m, MonadIO m, HasCallStack)
-  => [String]
-  -- ^ Arguments to the CLI command
-  -> m CreateProcess
-  -- ^ Captured stdout
-procCli = procFlex "cardano-cli" "CARDANO_CLI"
-
--- | Create a 'CreateProcess' describing how to start the cardano-node process
--- and an argument list.
-procNode
-  :: (MonadTest m, MonadCatch m, MonadIO m, HasCallStack)
-  => [String]
-  -- ^ Arguments to the CLI command
-  -> m CreateProcess
-  -- ^ Captured stdout
-procNode = procFlex "cardano-node" "CARDANO_NODE"
-
--- | Create a 'CreateProcess' describing how to start the cardano-node-chairman process
--- and an argument list.
-procChairman
-  :: (MonadTest m, MonadCatch m, MonadIO m, HasCallStack)
-  => [String]
-  -- ^ Arguments to the CLI command
-  -> m CreateProcess
-  -- ^ Captured stdout
-procChairman = procFlex "cardano-node-chairman" "CARDANO_NODE_CHAIRMAN"
 
 -- | Compute the project base.  This will be based on either the "CARDANO_NODE_SRC"
 -- environment variable or the parent directory.  Both should point to the
