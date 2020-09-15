@@ -34,16 +34,16 @@ library
   exposed-modules:      Chairman.Aeson
                         Chairman.CallStack
                         Chairman.Cli
-                        Chairman.IO.File
-                        Chairman.IO.Network.NamedPipe
-                        Chairman.IO.Network.Socket
-                        Chairman.IO.Network.Sprocket
-                        Chairman.IO.Process
                         Chairman.Monad
                         Chairman.OS
                         Chairman.Plan
                         Chairman.String
                         Chairman.Time
+                        Hedgehog.Extras.Stock.IO.File
+                        Hedgehog.Extras.Stock.IO.Network.NamedPipe
+                        Hedgehog.Extras.Stock.IO.Network.Socket
+                        Hedgehog.Extras.Stock.IO.Network.Sprocket
+                        Hedgehog.Extras.Stock.IO.Process
                         Hedgehog.Extras.Test.Base
                         Hedgehog.Extras.Test.Concurrent
                         Hedgehog.Extras.Test.File

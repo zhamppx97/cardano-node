@@ -9,7 +9,6 @@ module Test.Cardano.Node.Chairman.ByronShelley
   ( tests
   ) where
 
-import           Chairman.IO.Network.Sprocket (Sprocket (..))
 import           Chairman.Time
 import           Control.Monad
 import           Control.Monad.IO.Class
@@ -29,6 +28,7 @@ import           GHC.Float
 import           GHC.Num
 import           GHC.Real
 import           Hedgehog (Property, discover, (===))
+import           Hedgehog.Extras.Stock.IO.Network.Sprocket (Sprocket (..))
 import           System.Exit (ExitCode (..))
 import           System.FilePath.Posix ((</>))
 import           System.IO (IO)
@@ -36,9 +36,6 @@ import           Text.Read
 import           Text.Show
 
 import qualified Chairman.Aeson as J
-import qualified Chairman.IO.File as IO
-import qualified Chairman.IO.Network.Socket as IO
-import qualified Chairman.IO.Network.Sprocket as IO
 import qualified Chairman.OS as OS
 import qualified Chairman.String as S
 import qualified Data.Aeson as J
@@ -47,6 +44,9 @@ import qualified Data.List as L
 import qualified Data.Map as M
 import qualified Data.Time.Clock as DTC
 import qualified Hedgehog as H
+import qualified Hedgehog.Extras.Stock.IO.File as IO
+import qualified Hedgehog.Extras.Stock.IO.Network.Socket as IO
+import qualified Hedgehog.Extras.Stock.IO.Network.Sprocket as IO
 import qualified Hedgehog.Extras.Test.Base as H
 import qualified Hedgehog.Extras.Test.Concurrent as H
 import qualified Hedgehog.Extras.Test.File as H

@@ -17,7 +17,6 @@ module Hedgehog.Extras.Test.Process
   ) where
 
 import           Chairman.Cli (argQuote)
-import           Chairman.IO.Process (TimedOut (..))
 import           Chairman.Plan
 import           Control.Monad
 import           Control.Monad.Catch hiding (catch)
@@ -34,18 +33,19 @@ import           Data.Semigroup ((<>))
 import           Data.String (String)
 import           GHC.Stack (HasCallStack)
 import           Hedgehog (MonadTest)
+import           Hedgehog.Extras.Stock.IO.Process (TimedOut (..))
 import           Prelude (error)
 import           System.Exit (ExitCode)
 import           System.IO (Handle)
 import           System.Process (CmdSpec (..), CreateProcess (..), Pid, ProcessHandle)
 import           Text.Show
 
-import qualified Chairman.IO.Process as IO
 import qualified Data.ByteString.Lazy as LBS
 import qualified Data.List as L
 import qualified Data.Text as T
 import qualified GHC.Stack as GHC
 import qualified Hedgehog as H
+import qualified Hedgehog.Extras.Stock.IO.Process as IO
 import qualified Hedgehog.Extras.Test.Base as H
 import qualified System.Environment as IO
 import qualified System.Exit as IO
