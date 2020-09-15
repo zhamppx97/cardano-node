@@ -21,8 +21,6 @@ module Hedgehog.Extras.Test.File
   , assertIsJsonFile
   ) where
 
-import           Chairman.Monad
-import           Chairman.OS
 import           Control.Monad
 import           Control.Monad.IO.Class
 import           Data.Aeson
@@ -34,6 +32,8 @@ import           Data.Semigroup
 import           Data.String
 import           GHC.Stack (HasCallStack)
 import           Hedgehog (MonadTest)
+import           Hedgehog.Extras.Stock.Monad
+import           Hedgehog.Extras.Stock.OS
 import           System.IO (FilePath, Handle, IOMode)
 import           Text.Show
 

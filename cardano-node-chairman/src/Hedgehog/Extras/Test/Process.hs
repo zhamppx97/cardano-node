@@ -16,8 +16,6 @@ module Hedgehog.Extras.Test.Process
   , waitSecondsForProcess
   ) where
 
-import           Chairman.Cli (argQuote)
-import           Chairman.Plan
 import           Control.Monad
 import           Control.Monad.Catch hiding (catch)
 import           Control.Monad.IO.Class (MonadIO, liftIO)
@@ -33,6 +31,8 @@ import           Data.Semigroup ((<>))
 import           Data.String (String)
 import           GHC.Stack (HasCallStack)
 import           Hedgehog (MonadTest)
+import           Hedgehog.Extras.Internal.Cli (argQuote)
+import           Hedgehog.Extras.Internal.Plan
 import           Hedgehog.Extras.Stock.IO.Process (TimedOut (..))
 import           Prelude (error)
 import           System.Exit (ExitCode)

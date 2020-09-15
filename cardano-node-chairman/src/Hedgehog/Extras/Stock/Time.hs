@@ -1,6 +1,6 @@
 {-# LANGUAGE TypeApplications #-}
 
-module Chairman.Time
+module Hedgehog.Extras.Stock.Time
   ( showUTCTimeSeconds
   ) where
 

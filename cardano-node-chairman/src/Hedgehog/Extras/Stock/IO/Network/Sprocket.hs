@@ -6,7 +6,6 @@ module Hedgehog.Extras.Stock.IO.Network.Sprocket
   , maxSprocketArgumentNameLength
   ) where
 
-import           Chairman.OS
 import           Data.Bool
 import           Data.Char
 import           Data.Eq
@@ -14,6 +13,7 @@ import           Data.Functor
 import           Data.Int
 import           Data.Semigroup
 import           Data.String (String)
+import           Hedgehog.Extras.Stock.OS
 import           System.IO (FilePath, IO)
 import           Text.Show
 
