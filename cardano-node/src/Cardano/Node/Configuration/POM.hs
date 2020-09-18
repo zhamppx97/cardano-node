@@ -67,6 +67,12 @@ data NodeConfiguration
        , ncLoggingSwitch  :: !Bool
        , ncLogMetrics     :: !Bool
        , ncTraceConfig    :: !TraceOptions
+
+         -- P2P governor targets
+       , ncTargetNumberOfRootPeers        :: Int
+       , ncTargetNumberOfKnownPeers       :: Int
+       , ncTargetNumberOfEstablishedPeers :: Int
+       , ncTargetNumberOfActivePeers      :: Int
        } deriving (Eq, Show)
 
 
@@ -101,6 +107,12 @@ data PartialNodeConfiguration
        , pncLoggingSwitch  :: !(Last Bool)
        , pncLogMetrics     :: !(Last Bool)
        , pncTraceConfig    :: !(Last TraceOptions)
+
+         -- P2P governor targets
+       , pncTargetNumberOfRootPeers        :: !(Last Int)
+       , pncTargetNumberOfKnownPeers       :: !(Last Int)
+       , pncTargetNumberOfEstablishedPeers :: !(Last Int)
+       , pncTargetNumberOfActivePeers      :: !(Last Int)
        } deriving (Eq, Generic, Show)
 
 instance AdjustFilePaths PartialNodeConfiguration where
@@ -146,6 +158,12 @@ instance FromJSON PartialNodeConfiguration where
             Last . Just  <$> (NodeProtocolConfigurationCardano <$> parseByronProtocol v
                                                                <*> parseShelleyProtocol v
                                                                <*> parseHardForkProtocol v)
+      -- P2P Governor parameters, with conservative defaults.
+      pncTargetNumberOfRootPeers        <- Last <$> v .:? "TargetNumberOfRootPeers"
+      pncTargetNumberOfKnownPeers       <- Last <$> v .:? "TargetNumberOfKnownPeers"
+      pncTargetNumberOfEstablishedPeers <- Last <$> v .:? "TargetNumberOfEstablishedPeers"
+      pncTargetNumberOfActivePeers      <- Last <$> v .:? "TargetNumberOfActivePeers"
+
       pure PartialNodeConfiguration {
              pncProtocolConfig = pncProtocolConfig'
            , pncSocketPath = pncSocketPath'
@@ -165,6 +183,10 @@ instance FromJSON PartialNodeConfiguration where
            , pncValidateDB = mempty
            , pncShutdownIPC = mempty
            , pncShutdownOnSlotSynced = mempty
+           , pncTargetNumberOfRootPeers
+           , pncTargetNumberOfKnownPeers
+           , pncTargetNumberOfEstablishedPeers
+           , pncTargetNumberOfActivePeers
            }
     where
       parseByronProtocol v = do
@@ -269,6 +291,10 @@ defaultPartialNodeConfiguration =
     , pncMaxConcurrencyDeadline = mempty
     , pncLogMetrics = mempty
     , pncTraceConfig = mempty
+    , pncTargetNumberOfRootPeers        = Last (Just 5)
+    , pncTargetNumberOfKnownPeers       = Last (Just 5)
+    , pncTargetNumberOfEstablishedPeers = Last (Just 2)
+    , pncTargetNumberOfActivePeers      = Last (Just 1)
     }
 
 lastOption :: Parser a -> Parser (Last a)
@@ -291,6 +317,11 @@ makeNodeConfiguration pnc = do
   logMetrics <- lastToEither "Missing LogMetrics" $ pncLogMetrics pnc
   traceConfig <- lastToEither "Missing TraceConfig" $ pncTraceConfig pnc
   diffusionMode <- lastToEither "Missing DiffusionMode" $ pncDiffusionMode pnc
+  targetNumberOfRootPeers <- lastToEither "Missing TargetNumberOfRootPeers" $ pncTargetNumberOfRootPeers pnc
+  targetNumberOfKnownPeers <- lastToEither "Missing TargetNumberOfKnownPeers" $ pncTargetNumberOfKnownPeers pnc
+  targetNumberOfEstablishedPeers <- lastToEither "Missing TargetNumberOfEstablishedPeers" $ pncTargetNumberOfEstablishedPeers pnc
+  targetNumberOfActivePeers <- lastToEither "Missing TargetNumberOfActivePeers" $ pncTargetNumberOfActivePeers pnc
+
   return $ NodeConfiguration
              { ncNodeIPv4Addr = getLast $ pncNodeIPv4Addr pnc
              , ncNodeIPv6Addr = getLast $ pncNodeIPv6Addr pnc
@@ -310,6 +341,10 @@ makeNodeConfiguration pnc = do
              , ncLoggingSwitch = loggingSwitch
              , ncLogMetrics = logMetrics
              , ncTraceConfig = traceConfig
+             , ncTargetNumberOfRootPeers = targetNumberOfRootPeers
+             , ncTargetNumberOfKnownPeers = targetNumberOfKnownPeers
+             , ncTargetNumberOfEstablishedPeers = targetNumberOfEstablishedPeers
+             , ncTargetNumberOfActivePeers = targetNumberOfActivePeers
              }
 
 ncProtocol :: NodeConfiguration -> Protocol
