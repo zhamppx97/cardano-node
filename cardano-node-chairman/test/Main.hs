@@ -1,25 +1,29 @@
-{-# LANGUAGE TypeApplications #-}
-
 module Main
   ( main
   ) where
 
 import           Control.Monad
-import           Data.Bool
+import           Control.Monad.IO.Class
+import           Control.Monad.Trans.Resource
 import           Data.Function
 import           Hedgehog
+import           Hedgehog.Extras.Test.Base
 import           System.IO (IO)
 
 import qualified Control.Concurrent as IO
-import qualified Control.Concurrent.STM as STM
+import qualified System.IO as IO
 
-import qualified Test.Cardano.Node.Chairman.Shelley
 
 main :: IO ()
 main = do
-  tvDone <- STM.newTVarIO @Bool False
-
-  void . check $ Test.Cardano.Node.Chairman.Shelley.prepropChairman tvDone
+  void . check . propertyOnce $ do
+    void . register $ IO.appendFile "log.txt" "Cleanup\n"
+    void . liftResourceT . resourceForkIO $ do
+      liftIO $ IO.appendFile "log.txt" "Forked\n"
+      void . liftIO $ IO.threadDelay 5000000
+    liftIO $ IO.threadDelay 1000000
+    liftIO $ IO.appendFile "log.txt" "Done\n"
+    liftIO $ IO.threadDelay 1000000
 
   void . forever $ IO.threadDelay 100000000
 
