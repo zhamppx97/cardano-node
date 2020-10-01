@@ -79,6 +79,9 @@ jobs:
     - name: Check haskell
       run: |
         echo "$PATH"
+        echo "====="
+        env
+        echo "====="
         which bash
         which cabal
         which ghc
