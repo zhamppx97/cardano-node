@@ -11,6 +11,18 @@
         "url": "https://github.com/input-output-hk/cardano-byron-proxy/archive/85bfe9440a79de1ea663d993de8c795bba434acc.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "cardano-node-tests": {
+        "branch": "master",
+        "description": "Functional tests for cardano-node",
+        "homepage": null,
+        "owner": "input-output-hk",
+        "repo": "cardano-node-tests",
+        "rev": "3afe82d182fc508e7e1083f35b81ecd54833217c",
+        "sha256": "0lqspjijxhcmlc1ja8v0x9jd96s3cma8cvfbsh98y5rfh1zi0n6j",
+        "type": "tarball",
+        "url": "https://github.com/input-output-hk/cardano-node-tests/archive/3afe82d182fc508e7e1083f35b81ecd54833217c.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "cardano-sl": {
         "branch": "develop",
         "description": "Cryptographic currency implementing Ouroboros PoS protocol",
