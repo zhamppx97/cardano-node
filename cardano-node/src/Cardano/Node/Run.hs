@@ -76,6 +76,7 @@ import           Cardano.Tracing.Kernel
 import           Cardano.Tracing.Peer
 import           Cardano.Tracing.Tracers
 
+
 {- HLINT ignore "Use fewer imports" -}
 
 runNode
@@ -279,6 +280,7 @@ handleSimpleNode p trace nodeTracers nc onKernel = do
     , dtHandshakeTracer = handshakeTracer nodeTracers'
     , dtHandshakeLocalTracer = localHandshakeTracer nodeTracers'
     , dtDiffusionInitializationTracer = diffusionInitializationTracer nodeTracers'
+    , dtLedgerPeersTracer = ledgerPeersTracer nodeTracers'
     }
 
   createTracers
