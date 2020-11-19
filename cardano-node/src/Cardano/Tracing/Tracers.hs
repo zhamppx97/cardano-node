@@ -74,6 +74,7 @@ import qualified Ouroboros.Network.NodeToClient as NtC
 import qualified Ouroboros.Network.NodeToNode as NtN
 import           Ouroboros.Network.Point (fromWithOrigin, withOrigin)
 import           Ouroboros.Network.Subscription
+import           Ouroboros.Network.PeerSelection.LedgerPeers (TraceLedgerPeers)
 
 import qualified Ouroboros.Consensus.Storage.ChainDB as ChainDB
 import qualified Ouroboros.Consensus.Storage.LedgerDB.OnDisk as LedgerDB
@@ -119,6 +120,7 @@ data Tracers peer localPeer blk = Tracers
   , muxTracer :: Tracer IO (WithMuxBearer peer MuxTrace)
   , handshakeTracer :: Tracer IO NtN.HandshakeTr
   , localHandshakeTracer :: Tracer IO NtC.HandshakeTr
+  , ledgerPeersTracer :: Tracer IO TraceLedgerPeers
   }
 
 data ForgeTracers = ForgeTracers
@@ -151,6 +153,7 @@ nullTracers = Tracers
   , muxTracer = nullTracer
   , handshakeTracer = nullTracer
   , localHandshakeTracer = nullTracer
+  , ledgerPeersTracer = nullTracer
   }
 
 
@@ -296,6 +299,7 @@ mkTracers tOpts@(TracingOn trSel) tr nodeKern = do
     , muxTracer = tracerOnOff (traceMux trSel) verb "Mux" tr
     , handshakeTracer = tracerOnOff (traceHandshake trSel) verb "Handshake" tr
     , localHandshakeTracer = tracerOnOff (traceLocalHandshake trSel) verb "LocalHandshake" tr
+    , ledgerPeersTracer = tracerOnOff (traceLedgerPeers trSel) verb "LedgerPeers" tr
     }
  where
    verb :: TracingVerbosity
@@ -341,6 +345,7 @@ mkTracers TracingOff _ _ =
     , muxTracer = nullTracer
     , handshakeTracer = nullTracer
     , localHandshakeTracer = nullTracer
+    , ledgerPeersTracer = nullTracer
     }
 
 --------------------------------------------------------------------------------

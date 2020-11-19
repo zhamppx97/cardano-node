@@ -38,6 +38,7 @@ import qualified Ouroboros.Network.NodeToClient as NtC
 import           Ouroboros.Network.NodeToNode (ErrorPolicyTrace (..), TraceSendRecv (..),
                      WithAddr (..))
 import qualified Ouroboros.Network.NodeToNode as NtN
+import           Ouroboros.Network.PeerSelection.LedgerPeers
 import           Ouroboros.Network.Protocol.BlockFetch.Type (BlockFetch, Message (..))
 import           Ouroboros.Network.Protocol.ChainSync.Type (ChainSync)
 import qualified Ouroboros.Network.Protocol.ChainSync.Type as ChainSync
@@ -239,6 +240,9 @@ instance HasSeverityAnnotation (Identity (SubscriptionTrace LocalAddress)) where
     SubscriptionTraceAllocateSocket {} -> Debug
     SubscriptionTraceCloseSocket {} -> Debug
 
+instance HasPrivacyAnnotation TraceLedgerPeers
+instance HasSeverityAnnotation TraceLedgerPeers where
+  getSeverityAnnotation _ = Info
 
 instance Transformable Text IO (Identity (SubscriptionTrace LocalAddress)) where
   trTransformer = trStructuredText
@@ -336,6 +340,12 @@ instance HasTextFormatter (TraceTxSubmissionOutbound txid tx) where
 instance Show remotePeer => Transformable Text IO (TraceKeepAliveClient remotePeer) where
   trTransformer = trStructuredText
 instance HasTextFormatter (TraceKeepAliveClient peer) where
+  formatText _ = pack . show . toList
+
+
+instance Transformable Text IO TraceLedgerPeers where
+  trTransformer = trStructuredText
+instance HasTextFormatter TraceLedgerPeers where
   formatText _ = pack . show . toList
 
 
@@ -628,6 +638,32 @@ instance Show remotePeer => ToObject (TraceKeepAliveClient remotePeer) where
 
       dTime :: Time -> Double
       dTime (Time d) = realToFrac d
+
+instance ToObject TraceLedgerPeers where
+  toObject _verb (PickedPeer addr _ackStake stake) =
+    mkObject
+      [ "kind" .= String "TraceLedgerPeers PickedPeer"
+      , "address" .= show addr -- XXX better
+      , "relativeStake" .= (fromRational stake :: Double)
+      ]
+  toObject _verb (PickedPeers n addrs) =
+    mkObject
+      [ "kind" .= String "TraceLedgerPeers PickedPeers"
+      , "desiredCount" .= n
+      , "count" .= length addrs
+      , "addresses" .= show addrs -- XXX better
+      ]
+  toObject _verb (WaitingOnTip tipTs useLedgerAt) =
+    mkObject
+      [ "kind" .= String "TraceLedgerPeers WaitingOnTip"
+      , "tipTime" .= show tipTs
+      , "useAt" .= show useLedgerAt
+      ]
+  toObject _verb (FetchingNewLedgerState cnt) =
+    mkObject
+      [ "kind" .= String "TraceLedgerPeers FetchingNewLedgerState"
+      , "numberOfPools" .= cnt
+      ]
 
 instance Show addr => ToObject (WithAddr addr ErrorPolicyTrace) where
   toObject _verb (WithAddr addr ev) =
