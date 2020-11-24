@@ -736,6 +736,11 @@ instance ToObject TraceLedgerPeers where
       , "tip" .= show tip
       , "numberOfPools" .= cnt
       ]
+  toObject _verb (LedgerPeersXXX msg) =
+    mkObject
+      [ "kind" .= String "TraceLedgerPeers LedgerPeersXXX"
+      , "msg" .= pack msg
+      ]
 
 instance Show addr => ToObject (WithAddr addr ErrorPolicyTrace) where
   toObject _verb (WithAddr addr ev) =
