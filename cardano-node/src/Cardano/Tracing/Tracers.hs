@@ -75,7 +75,6 @@ import           Ouroboros.Network.Point (fromWithOrigin, withOrigin)
 import           Ouroboros.Network.Protocol.LocalStateQuery.Type (ShowQuery)
 import           Ouroboros.Network.Diffusion (DiffusionTracers (..))
 import qualified Ouroboros.Network.Diffusion as Diffusion
-import           Ouroboros.Network.Protocol.LocalStateQuery.Type (ShowQuery)
 
 import qualified Ouroboros.Consensus.Storage.ChainDB as ChainDB
 import qualified Ouroboros.Consensus.Storage.LedgerDB.OnDisk as LedgerDB
@@ -290,6 +289,8 @@ mkTracers tOpts@(TracingOn trSel) tr nodeKern = do
             tracerOnOff (traceConnectionManager trSel) verb "ConnectionManager" tr,
           dtServerTracer =
             tracerOnOff (traceServer trSel) verb "Server" tr,
+          dtLedgerPeersTracer = -- contramap show $ fileTracer "ledger.log",
+            tracerOnOff (traceLedgerPeers trSel) verb "LedgerPeers" tr,
           --
           -- local client tracers
           --
