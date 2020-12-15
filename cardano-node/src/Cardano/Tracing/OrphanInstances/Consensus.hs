@@ -152,7 +152,7 @@ instance HasSeverityAnnotation (TraceBlockFetchServerEvent blk) where
 
 instance HasPrivacyAnnotation (TraceChainSyncClientEvent blk)
 instance HasSeverityAnnotation (TraceChainSyncClientEvent blk) where
-  getSeverityAnnotation (TraceDownloadedHeader _ _ _) = Info
+  getSeverityAnnotation (TraceDownloadedHeader _ _ _ _) = Info
   getSeverityAnnotation (TraceFoundIntersection _ _ _) = Info
   getSeverityAnnotation (TraceRolledBack _) = Notice
   getSeverityAnnotation (TraceException _) = Warning
@@ -963,9 +963,10 @@ instance ToObject (TraceBlockFetchServerEvent blk) where
 instance (ConvertRawHash blk, LedgerSupportsProtocol blk)
       => ToObject (TraceChainSyncClientEvent blk) where
   toObject verb ev = case ev of
-    (TraceDownloadedHeader pt distance peer) ->
+    (TraceDownloadedHeader blockNo slotNo distance peer) ->
       mkObject [ "kind" .= String "ChainSyncClientEvent.TraceDownloadedHeader"
-               , "block" .= toObject verb (headerPoint pt)
+               , "block" .= show blockNo
+               , "slotNo" .= show slotNo
                , "distance" .= show distance
                , "peer" .= show peer ]
     TraceRolledBack tip ->
