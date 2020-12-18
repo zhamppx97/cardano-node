@@ -33,6 +33,7 @@ import qualified Cardano.Crypto.Hashing as Byron
 import qualified Cardano.Crypto.Signing as Byron
 import qualified Cardano.Chain.Common as Byron
 
+import           Cardano.Api.Crypto.Ed25519Bip32 (VerKeyDSIGN (..))
 import           Cardano.Api.HasTypeProxy
 import           Cardano.Api.Hash
 import           Cardano.Api.Key
@@ -135,7 +136,8 @@ instance HasTextEnvelope (SigningKey ByronKey) where
 instance CastVerificationKeyRole ByronKey PaymentExtendedKey where
     castVerificationKey (ByronVerificationKey vk) =
         PaymentExtendedVerificationKey
-          (Byron.unVerificationKey vk)
+          $ VerKeyEd25519Bip32DSIGN
+          $ Byron.unVerificationKey vk
 
 instance CastVerificationKeyRole ByronKey PaymentKey where
     castVerificationKey =
@@ -143,4 +145,3 @@ instance CastVerificationKeyRole ByronKey PaymentKey where
                              -> VerificationKey PaymentKey)
       . (castVerificationKey :: VerificationKey ByronKey
                              -> VerificationKey PaymentExtendedKey)
-
