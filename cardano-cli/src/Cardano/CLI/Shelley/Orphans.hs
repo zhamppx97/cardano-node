@@ -44,7 +44,7 @@ import qualified Shelley.Spec.Ledger.Delegation.Certificates as Ledger
 import qualified Shelley.Spec.Ledger.EpochBoundary as Ledger
 import qualified Shelley.Spec.Ledger.Keys as Ledger
 import qualified Shelley.Spec.Ledger.LedgerState as Ledger
-import           Shelley.Spec.Ledger.MetaData (MetaDataHash (..))
+import           Shelley.Spec.Ledger.Metadata (MetaDataHash (..))
 import qualified Shelley.Spec.Ledger.PParams as Ledger
 import qualified Shelley.Spec.Ledger.Rewards as Ledger
 import qualified Shelley.Spec.Ledger.STS.Prtcl as Ledger

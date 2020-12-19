@@ -62,7 +62,7 @@ import           Control.Monad (guard, when)
 
 import qualified Cardano.Binary as CBOR
 
-import qualified Shelley.Spec.Ledger.MetaData as Shelley
+import qualified Shelley.Spec.Ledger.Metadata as Shelley
 
 import           Cardano.Api.Eras
 import           Cardano.Api.Error
@@ -100,14 +100,14 @@ instance HasTypeProxy TxMetadata where
 instance SerialiseAsCBOR TxMetadata where
     serialiseToCBOR =
           CBOR.serialize'
-        . Shelley.MetaData
+        . Shelley.Metadata
         . toShelleyMetaData
         . (\(TxMetadata m) -> m)
 
     deserialiseFromCBOR AsTxMetadata bs =
           TxMetadata
         . fromShelleyMetaData
-        . (\(Shelley.MetaData m) -> m)
+        . (\(Shelley.Metadata m) -> m)
       <$> CBOR.decodeAnnotator "TxMetadata" fromCBOR (LBS.fromStrict bs)
 
 makeTransactionMetadata :: Map Word64 TxMetadataValue -> TxMetadata
@@ -118,10 +118,10 @@ makeTransactionMetadata = TxMetadata
 -- Internal conversion functions
 --
 
-toShelleyMetaData :: Map Word64 TxMetadataValue -> Map Word64 Shelley.MetaDatum
+toShelleyMetaData :: Map Word64 TxMetadataValue -> Map Word64 Shelley.Metadatum
 toShelleyMetaData = Map.map toShelleyMetaDatum
   where
-    toShelleyMetaDatum :: TxMetadataValue -> Shelley.MetaDatum
+    toShelleyMetaDatum :: TxMetadataValue -> Shelley.Metadatum
     toShelleyMetaDatum (TxMetaNumber x) = Shelley.I x
     toShelleyMetaDatum (TxMetaBytes  x) = Shelley.B x
     toShelleyMetaDatum (TxMetaText   x) = Shelley.S x
@@ -132,10 +132,10 @@ toShelleyMetaData = Map.map toShelleyMetaDatum
                                                toShelleyMetaDatum v)
                                             | (k,v) <- xs ]
 
-fromShelleyMetaData :: Map Word64 Shelley.MetaDatum -> Map Word64 TxMetadataValue
+fromShelleyMetaData :: Map Word64 Shelley.Metadatum -> Map Word64 TxMetadataValue
 fromShelleyMetaData = Map.Lazy.map fromShelleyMetaDatum
   where
-    fromShelleyMetaDatum :: Shelley.MetaDatum -> TxMetadataValue
+    fromShelleyMetaDatum :: Shelley.Metadatum -> TxMetadataValue
     fromShelleyMetaDatum (Shelley.I     x) = TxMetaNumber x
     fromShelleyMetaDatum (Shelley.B     x) = TxMetaBytes  x
     fromShelleyMetaDatum (Shelley.S     x) = TxMetaText   x

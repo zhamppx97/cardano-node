@@ -113,7 +113,7 @@ import qualified Cardano.Ledger.Core as Ledger
 import qualified Cardano.Ledger.Shelley.Constraints as Ledger
 import qualified Cardano.Ledger.ShelleyMA.TxBody as Allegra
 import qualified Cardano.Ledger.ShelleyMA.Metadata as Allegra
-import qualified Shelley.Spec.Ledger.MetaData as Ledger (MetaDataHash, hashMetadata)
+import qualified Shelley.Spec.Ledger.Metadata as Ledger (MetaDataHash, hashMetadata)
 import           Ouroboros.Consensus.Shelley.Eras
                    (StandardShelley, StandardAllegra, StandardMary)
 import           Ouroboros.Consensus.Shelley.Protocol.Crypto (StandardCrypto)
@@ -123,7 +123,7 @@ import           Shelley.Spec.Ledger.BaseTypes (StrictMaybe(..), maybeToStrictMa
 import qualified Shelley.Spec.Ledger.Credential as Shelley
 import qualified Shelley.Spec.Ledger.Genesis as Shelley
 import qualified Shelley.Spec.Ledger.Keys as Shelley
-import qualified Shelley.Spec.Ledger.MetaData as Shelley
+import qualified Shelley.Spec.Ledger.Metadata as Shelley
 import qualified Shelley.Spec.Ledger.Tx as Shelley
 import qualified Shelley.Spec.Ledger.TxBody as Shelley
 import qualified Shelley.Spec.Ledger.UTxO as Shelley

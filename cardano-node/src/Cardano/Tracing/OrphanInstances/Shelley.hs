@@ -60,7 +60,7 @@ import           Shelley.Spec.Ledger.BlockChain (LastAppliedBlock (..))
 import           Shelley.Spec.Ledger.Coin (DeltaCoin (..))
 import           Shelley.Spec.Ledger.PParams (PParamsUpdate)
 
-import           Shelley.Spec.Ledger.MetaData (MetaDataHash (..))
+import           Shelley.Spec.Ledger.Metadata (MetaDataHash (..))
 import           Shelley.Spec.Ledger.STS.Bbody
 import           Shelley.Spec.Ledger.STS.Chain
 import           Shelley.Spec.Ledger.STS.Deleg
