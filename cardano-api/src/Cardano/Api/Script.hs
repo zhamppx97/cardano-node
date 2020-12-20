@@ -654,7 +654,8 @@ adjustSimpleScriptVersion target = go
 -- Conversion functions
 --
 
-toShelleyScript :: ScriptInEra era -> Ledger.Script (ShelleyLedgerEra era)
+-- toShelleyScript :: ScriptInEra era -> Ledger.Script (ShelleyLedgerEra era)
+toShelleyScript :: ScriptInEra era -> _
 toShelleyScript (ScriptInEra langInEra (SimpleScript _ script)) =
     case langInEra of
       SimpleScriptV1InShelley -> toShelleyMultiSig script
@@ -668,10 +669,10 @@ toShelleyScript (ScriptInEra langInEra (SimpleScript _ script)) =
 -- | Conversion for the 'Shelley.MultiSig' language used by the Shelley era.
 --
 toShelleyMultiSig :: SimpleScript SimpleScriptV1
-                  -> Shelley.MultiSig StandardShelley
+                  -> Shelley.MultiSig StandardCrypto
 toShelleyMultiSig = go
   where
-    go :: SimpleScript SimpleScriptV1 -> Shelley.MultiSig StandardShelley
+    go :: SimpleScript SimpleScriptV1 -> Shelley.MultiSig StandardCrypto
     go (RequireSignature (PaymentKeyHash kh))
                         = Shelley.RequireSignature (Shelley.coerceKeyRole kh)
     go (RequireAllOf s) = Shelley.RequireAllOf (map go s)
@@ -680,7 +681,7 @@ toShelleyMultiSig = go
 
 -- | Conversion for the 'Shelley.MultiSig' language used by the Shelley era.
 --
-fromShelleyMultiSig :: Shelley.MultiSig StandardShelley -> SimpleScript lang
+fromShelleyMultiSig :: Shelley.MultiSig StandardCrypto -> SimpleScript lang
 fromShelleyMultiSig = go
   where
     go (Shelley.RequireSignature kh)
@@ -695,7 +696,8 @@ fromShelleyMultiSig = go
 --
 toAllegraTimelock :: forall lang ledgerera.
                      (Ledger.Era ledgerera,
-                      Ledger.Crypto ledgerera ~ StandardCrypto)
+                      Ledger.Crypto ledgerera ~ StandardCrypto,
+                      ledgerera ~ StandardCrypto)
                   => SimpleScript lang -> Timelock.Timelock ledgerera
 toAllegraTimelock = go
   where
@@ -712,7 +714,8 @@ toAllegraTimelock = go
 -- Allegra and Mary eras.
 --
 fromAllegraTimelock ::    (Ledger.Era ledgerera,
-                           Ledger.Crypto ledgerera ~ StandardCrypto)
+                           Ledger.Crypto ledgerera ~ StandardCrypto,
+                           ledgerera ~ StandardCrypto)
                        => TimeLocksSupported lang
                        -> Timelock.Timelock ledgerera
                        -> SimpleScript lang
