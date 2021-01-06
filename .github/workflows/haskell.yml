@@ -13,8 +13,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ghc: ["8.6.5", "8.10.3"]
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        ghc: ["8.10.3"]
+        os: [windows-latest]
+        instance: [  1,  2,  3,  4,  5,  6,  7,  8,  9, 10
+                  , 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+                  ]
 
     steps:
     - uses: actions/checkout@v1
@@ -120,11 +123,11 @@ jobs:
     - name: Build
       run: cabal build cardano-node cardano-cli cardano-node-chairman --builddir="$CABAL_BUILDDIR"
 
-    - name: Git clone
-      run: git clone https://github.com/input-output-hk/cardano-mainnet-mirror
+    # - name: Git clone
+    #   run: git clone https://github.com/input-output-hk/cardano-mainnet-mirror
 
-    - name: Run tests
-      run: TMPDIR="${{ runner.temp }}" TMP="${{ runner.temp }}" KEEP_WORKSPACE=1 cabal test --builddir="$CABAL_BUILDDIR" cardano-node-chairman
+    # - name: Run tests
+    #   run: TMPDIR="${{ runner.temp }}" TMP="${{ runner.temp }}" KEEP_WORKSPACE=1 cabal test --builddir="$CABAL_BUILDDIR" cardano-node-chairman
 
     - name: Delete socket files in preparation for upload artifacts
       if: ${{ always() }}
