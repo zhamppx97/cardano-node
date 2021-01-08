@@ -279,6 +279,9 @@ mkTracers tOpts@(TracingOn trSel) tr nodeKern = do
             tracerOnOff (traceConnectionManager trSel) verb "ConnectionManager" tr,
           dtServerTracer =
             tracerOnOff (traceServer trSel) verb "Server" tr,
+          dtLedgerPeersTracer =
+            tracerOnOff (traceLedgerPeers trSel) verb "LedgerPeers" tr,
+
           --
           -- local client tracers
           --
