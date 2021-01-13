@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE FlexibleContexts #-}</span><span>
+</span><span id="line-2"></span><span class="hs-pragma">{-# LANGUAGE GADTs #-}</span><span>
+</span><span id="line-3"></span><span class="hs-pragma">{-# LANGUAGE RankNTypes #-}</span><span>
+</span><span id="line-4"></span><span class="hs-pragma">{-# LANGUAGE ScopedTypeVariables #-}</span><span>
+</span><span id="line-5"></span><span class="hs-pragma">{-# LANGUAGE TypeApplications #-}</span><span>
+</span><span id="line-6"></span><span>
+</span><span id="line-7"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Cardano.CLI.Byron.Query</span><span>
+</span><span id="line-8"></span><span>  </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Cardano.CLI.Byron.Query.html#ByronQueryError"><span class="hs-identifier">ByronQueryError</span></a></span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-9"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Cardano.CLI.Byron.Query.html#renderByronQueryError"><span class="hs-identifier">renderByronQueryError</span></a></span><span>
+</span><span id="line-10"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Cardano.CLI.Byron.Query.html#runGetLocalNodeTip"><span class="hs-identifier">runGetLocalNodeTip</span></a></span><span>
+</span><span id="line-11"></span><span>  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-12"></span><span>
+</span><span id="line-13"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Cardano.Prelude</span></span><span>
+</span><span id="line-14"></span><span>
+</span><span id="line-15"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Control.Monad.Trans.Except.Extra</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">firstExceptT</span></span><span class="hs-special">)</span><span>
+</span><span id="line-16"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Text</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Text</span></span><span>
+</span><span id="line-17"></span><span>
+</span><span id="line-18"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><a href="../file:///home/runner/work/cardano-node/cardano-node/dist/build/x86_64-linux/ghc-8.10.2/cardano-api-1.24.2/noopt/doc/html/cardano-api/src"><span class="hs-identifier">Cardano.Api</span></a></span><span>
+</span><span id="line-19"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><a href="../file:///home/runner/work/cardano-node/cardano-node/dist/build/x86_64-linux/ghc-8.10.2/cardano-api-1.24.2/noopt/doc/html/cardano-api/src"><span class="hs-identifier">Cardano.Api.Byron</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="../file:///home/runner/work/cardano-node/cardano-node/dist/build/x86_64-linux/ghc-8.10.2/cardano-api-1.24.2/noopt/doc/html/cardano-api/src"><span class="hs-identifier">NodeConsensusMode</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="../file:///home/runner/work/cardano-node/cardano-node/dist/build/x86_64-linux/ghc-8.10.2/cardano-api-1.24.2/noopt/doc/html/cardano-api/src"><span class="hs-identifier">ByronMode</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-20"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Cardano.Chain.Slotting</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">EpochSlots</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-21"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Ouroboros.Consensus.Block</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">ConvertRawHash</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-22"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Ouroboros.Network.Block</span></span><span>
+</span><span id="line-23"></span><span>
+</span><span id="line-24"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><a href="../file:///home/runner/work/cardano-node/cardano-node/dist/build/x86_64-linux/ghc-8.10.2/cardano-api-1.24.2/noopt/doc/html/cardano-api/src"><span class="hs-identifier">Cardano.Api.LocalChainSync</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="../file:///home/runner/work/cardano-node/cardano-node/dist/build/x86_64-linux/ghc-8.10.2/cardano-api-1.24.2/noopt/doc/html/cardano-api/src"><span class="hs-identifier">getLocalTip</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-25"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><a href="Cardano.CLI.Environment.html"><span class="hs-identifier">Cardano.CLI.Environment</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Cardano.CLI.Environment.html#EnvSocketError"><span class="hs-identifier">EnvSocketError</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Cardano.CLI.Environment.html#readEnvSocketPath"><span class="hs-identifier">readEnvSocketPath</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Cardano.CLI.Environment.html#renderEnvSocketError"><span class="hs-identifier">renderEnvSocketError</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-26"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><a href="Cardano.CLI.Types.html"><span class="hs-identifier">Cardano.CLI.Types</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Cardano.CLI.Types.html#SocketPath"><span class="hs-identifier">SocketPath</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-27"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><a href="../file:///home/runner/work/cardano-node/cardano-node/dist/build/x86_64-linux/ghc-8.10.2/cardano-node-1.24.2/noopt/doc/html/cardano-node/src"><span class="hs-identifier">Cardano.Tracing.Render</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="../file:///home/runner/work/cardano-node/cardano-node/dist/build/x86_64-linux/ghc-8.10.2/cardano-node-1.24.2/noopt/doc/html/cardano-node/src"><span class="hs-identifier">renderHeaderHash</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="../file:///home/runner/work/cardano-node/cardano-node/dist/build/x86_64-linux/ghc-8.10.2/cardano-node-1.24.2/noopt/doc/html/cardano-node/src"><span class="hs-identifier">renderSlotNo</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-28"></span><span>
+</span><span id="line-29"></span><span class="hs-comment">{- HLINT ignore &quot;Reduce duplication&quot; -}</span><span>
+</span><span id="line-30"></span><span>
+</span><span id="line-31"></span><span class="hs-keyword">newtype</span><span> </span><span id="ByronQueryError"><span class="annot"><a href="Cardano.CLI.Byron.Query.html#ByronQueryError"><span class="hs-identifier hs-var">ByronQueryError</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="ByronQueryEnvVarSocketErr"><span class="annot"><a href="Cardano.CLI.Byron.Query.html#ByronQueryEnvVarSocketErr"><span class="hs-identifier hs-var">ByronQueryEnvVarSocketErr</span></a></span></span><span> </span><span class="annot"><a href="Cardano.CLI.Environment.html#EnvSocketError"><span class="hs-identifier hs-type">EnvSocketError</span></a></span><span>
+</span><span id="line-32"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span id="local-6989586621679268826"><span id="local-6989586621679268828"><span id="local-6989586621679268830"><span class="annot"><span class="annottext">Int -&gt; ByronQueryError -&gt; ShowS
+[ByronQueryError] -&gt; ShowS
+ByronQueryError -&gt; String
+(Int -&gt; ByronQueryError -&gt; ShowS)
+-&gt; (ByronQueryError -&gt; String)
+-&gt; ([ByronQueryError] -&gt; ShowS)
+-&gt; Show ByronQueryError
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+showList :: [ByronQueryError] -&gt; ShowS
+$cshowList :: [ByronQueryError] -&gt; ShowS
+show :: ByronQueryError -&gt; String
+$cshow :: ByronQueryError -&gt; String
+showsPrec :: Int -&gt; ByronQueryError -&gt; ShowS
+$cshowsPrec :: Int -&gt; ByronQueryError -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span>
+</span><span id="line-33"></span><span>
+</span><span id="line-34"></span><span class="annot"><a href="Cardano.CLI.Byron.Query.html#renderByronQueryError"><span class="hs-identifier hs-type">renderByronQueryError</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Cardano.CLI.Byron.Query.html#ByronQueryError"><span class="hs-identifier hs-type">ByronQueryError</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span>
+</span><span id="line-35"></span><span id="renderByronQueryError"><span class="annot"><span class="annottext">renderByronQueryError :: ByronQueryError -&gt; Text
+</span><a href="Cardano.CLI.Byron.Query.html#renderByronQueryError"><span class="hs-identifier hs-var hs-var">renderByronQueryError</span></a></span></span><span> </span><span id="local-6989586621679268824"><span class="annot"><span class="annottext">ByronQueryError
+</span><a href="#local-6989586621679268824"><span class="hs-identifier hs-var">err</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-36"></span><span>  </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">ByronQueryError
+</span><a href="#local-6989586621679268824"><span class="hs-identifier hs-var">err</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-37"></span><span>    </span><span class="annot"><a href="Cardano.CLI.Byron.Query.html#ByronQueryEnvVarSocketErr"><span class="hs-identifier hs-type">ByronQueryEnvVarSocketErr</span></a></span><span> </span><span id="local-6989586621679268823"><span class="annot"><span class="annottext">EnvSocketError
+</span><a href="#local-6989586621679268823"><span class="hs-identifier hs-var">sockEnvErr</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">EnvSocketError -&gt; Text
+</span><a href="Cardano.CLI.Environment.html#renderEnvSocketError"><span class="hs-identifier hs-var">renderEnvSocketError</span></a></span><span> </span><span class="annot"><span class="annottext">EnvSocketError
+</span><a href="#local-6989586621679268823"><span class="hs-identifier hs-var">sockEnvErr</span></a></span><span>
+</span><span id="line-38"></span><span>
+</span><span id="line-39"></span><span class="hs-comment">--------------------------------------------------------------------------------</span><span>
+</span><span id="line-40"></span><span class="hs-comment">-- Query local node's chain tip</span><span>
+</span><span id="line-41"></span><span class="hs-comment">--------------------------------------------------------------------------------</span><span>
+</span><span id="line-42"></span><span>
+</span><span id="line-43"></span><span class="annot"><a href="Cardano.CLI.Byron.Query.html#runGetLocalNodeTip"><span class="hs-identifier hs-type">runGetLocalNodeTip</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="../file:///home/runner/work/cardano-node/cardano-node/dist/build/x86_64-linux/ghc-8.10.2/cardano-api-1.24.2/noopt/doc/html/cardano-api/src"><span class="hs-identifier hs-type">NetworkId</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ExceptT</span></span><span> </span><span class="annot"><a href="Cardano.CLI.Byron.Query.html#ByronQueryError"><span class="hs-identifier hs-type">ByronQueryError</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><span id="line-44"></span><span id="runGetLocalNodeTip"><span class="annot"><span class="annottext">runGetLocalNodeTip :: NetworkId -&gt; ExceptT ByronQueryError IO ()
+</span><a href="Cardano.CLI.Byron.Query.html#runGetLocalNodeTip"><span class="hs-identifier hs-var hs-var">runGetLocalNodeTip</span></a></span></span><span> </span><span id="local-6989586621679268822"><span class="annot"><span class="annottext">NetworkId
+</span><a href="#local-6989586621679268822"><span class="hs-identifier hs-var">networkId</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-45"></span><span>    </span><span class="annot"><a href="Cardano.CLI.Types.html#SocketPath"><span class="hs-identifier hs-type">SocketPath</span></a></span><span> </span><span id="local-6989586621679268820"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679268820"><span class="hs-identifier hs-var">sockPath</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">(EnvSocketError -&gt; ByronQueryError)
+-&gt; ExceptT EnvSocketError IO SocketPath
+-&gt; ExceptT ByronQueryError IO SocketPath
+forall (m :: * -&gt; *) x y a.
+Functor m =&gt;
+(x -&gt; y) -&gt; ExceptT x m a -&gt; ExceptT y m a
+</span><span class="hs-identifier hs-var">firstExceptT</span></span><span> </span><span class="annot"><span class="annottext">EnvSocketError -&gt; ByronQueryError
+</span><a href="Cardano.CLI.Byron.Query.html#ByronQueryEnvVarSocketErr"><span class="hs-identifier hs-var">ByronQueryEnvVarSocketErr</span></a></span><span>
+</span><span id="line-46"></span><span>                           </span><span class="annot"><span class="annottext">ExceptT EnvSocketError IO SocketPath
+</span><a href="Cardano.CLI.Environment.html#readEnvSocketPath"><span class="hs-identifier hs-var">readEnvSocketPath</span></a></span><span>
+</span><span id="line-47"></span><span>    </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679268819"><span class="annot"><span class="annottext">connctInfo :: LocalNodeConnectInfo ByronMode (HardForkBlock '[ByronBlock])
+</span><a href="#local-6989586621679268819"><span class="hs-identifier hs-var hs-var">connctInfo</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-48"></span><span>          </span><span class="annot"><span class="annottext">LocalNodeConnectInfo :: forall mode block.
+String
+-&gt; NetworkId
+-&gt; NodeConsensusMode mode block
+-&gt; LocalNodeConnectInfo mode block
+</span><a href="../file:///home/runner/work/cardano-node/cardano-node/dist/build/x86_64-linux/ghc-8.10.2/cardano-api-1.24.2/noopt/doc/html/cardano-api/src"><span class="hs-identifier hs-type">LocalNodeConnectInfo</span></a></span><span> </span><span class="hs-special">{</span><span>
+</span><span id="line-49"></span><span>            </span><span class="annot"><span class="annottext">localNodeSocketPath :: String
+</span><a href="../file:///home/runner/work/cardano-node/cardano-node/dist/build/x86_64-linux/ghc-8.10.2/cardano-api-1.24.2/noopt/doc/html/cardano-api/src"><span class="hs-identifier hs-var">localNodeSocketPath</span></a></span><span>    </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679268820"><span class="hs-identifier hs-var">sockPath</span></a></span><span class="hs-special">,</span><span>
+</span><span id="line-50"></span><span>            </span><span class="annot"><span class="annottext">localNodeNetworkId :: NetworkId
+</span><a href="../file:///home/runner/work/cardano-node/cardano-node/dist/build/x86_64-linux/ghc-8.10.2/cardano-api-1.24.2/noopt/doc/html/cardano-api/src"><span class="hs-identifier hs-var">localNodeNetworkId</span></a></span><span>     </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">NetworkId
+</span><a href="#local-6989586621679268822"><span class="hs-identifier hs-var">networkId</span></a></span><span class="hs-special">,</span><span>
+</span><span id="line-51"></span><span>            </span><span class="annot"><span class="annottext">localNodeConsensusMode :: NodeConsensusMode ByronMode (HardForkBlock '[ByronBlock])
+</span><a href="../file:///home/runner/work/cardano-node/cardano-node/dist/build/x86_64-linux/ghc-8.10.2/cardano-api-1.24.2/noopt/doc/html/cardano-api/src"><span class="hs-identifier hs-var">localNodeConsensusMode</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">EpochSlots
+-&gt; NodeConsensusMode ByronMode (HardForkBlock '[ByronBlock])
+</span><a href="../file:///home/runner/work/cardano-node/cardano-node/dist/build/x86_64-linux/ghc-8.10.2/cardano-api-1.24.2/noopt/doc/html/cardano-api/src"><span class="hs-identifier hs-var">ByronMode</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Word64 -&gt; EpochSlots
+</span><span class="hs-identifier hs-var">EpochSlots</span></span><span> </span><span class="annot"><span class="annottext">Word64
+</span><span class="hs-number">21600</span></span><span class="hs-special">)</span><span>
+</span><span id="line-52"></span><span>          </span><span class="hs-special">}</span><span>
+</span><span id="line-53"></span><span>    </span><span class="annot"><span class="annottext">IO () -&gt; ExceptT ByronQueryError IO ()
+forall (m :: * -&gt; *) a. MonadIO m =&gt; IO a -&gt; m a
+</span><span class="hs-identifier hs-var">liftIO</span></span><span> </span><span class="annot"><span class="annottext">(IO () -&gt; ExceptT ByronQueryError IO ())
+-&gt; IO () -&gt; ExceptT ByronQueryError IO ()
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-54"></span><span>      </span><span id="local-6989586621679268812"><span class="annot"><span class="annottext">Tip (HardForkBlock '[ByronBlock])
+</span><a href="#local-6989586621679268812"><span class="hs-identifier hs-var">tip</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">LocalNodeConnectInfo ByronMode (HardForkBlock '[ByronBlock])
+-&gt; IO (Tip (HardForkBlock '[ByronBlock]))
+forall block mode.
+(ShowProxy block, ShowProxy (ApplyTxErr block),
+ ShowProxy (Query block), ShowProxy (GenTx block),
+ ShowQuery (Query block)) =&gt;
+LocalNodeConnectInfo mode block -&gt; IO (Tip block)
+</span><a href="../file:///home/runner/work/cardano-node/cardano-node/dist/build/x86_64-linux/ghc-8.10.2/cardano-api-1.24.2/noopt/doc/html/cardano-api/src"><span class="hs-identifier hs-var">getLocalTip</span></a></span><span> </span><span class="annot"><span class="annottext">LocalNodeConnectInfo ByronMode (HardForkBlock '[ByronBlock])
+</span><a href="#local-6989586621679268819"><span class="hs-identifier hs-var">connctInfo</span></a></span><span>
+</span><span id="line-55"></span><span>      </span><span class="annot"><span class="annottext">Text -&gt; IO ()
+</span><span class="hs-identifier hs-var">putTextLn</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Tip (HardForkBlock '[ByronBlock]) -&gt; Text
+forall blk. ConvertRawHash blk =&gt; Tip blk -&gt; Text
+</span><a href="#local-6989586621679268810"><span class="hs-identifier hs-var">getTipOutput</span></a></span><span> </span><span class="annot"><span class="annottext">Tip (HardForkBlock '[ByronBlock])
+</span><a href="#local-6989586621679268812"><span class="hs-identifier hs-var">tip</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-56"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-57"></span><span>    </span><span class="annot"><a href="#local-6989586621679268810"><span class="hs-identifier hs-type">getTipOutput</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621679268856"><span class="annot"><a href="#local-6989586621679268856"><span class="hs-identifier hs-type">blk</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ConvertRawHash</span></span><span> </span><span class="annot"><a href="#local-6989586621679268856"><span class="hs-identifier hs-type">blk</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Tip</span></span><span> </span><span class="annot"><a href="#local-6989586621679268856"><span class="hs-identifier hs-type">blk</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span>
+</span><span id="line-58"></span><span>    </span><span id="local-6989586621679268810"><span class="annot"><span class="annottext">getTipOutput :: Tip blk -&gt; Text
+</span><a href="#local-6989586621679268810"><span class="hs-identifier hs-var hs-var">getTipOutput</span></a></span></span><span> </span><span class="annot"><span class="annottext">Tip blk
+</span><span class="hs-identifier hs-var">TipGenesis</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text
+</span><span class="hs-string">&quot;Current tip: genesis (origin)&quot;</span></span><span>
+</span><span id="line-59"></span><span>    </span><span class="annot"><a href="#local-6989586621679268810"><span class="hs-identifier hs-var">getTipOutput</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Tip</span></span><span> </span><span id="local-6989586621679268807"><span class="annot"><span class="annottext">SlotNo
+</span><a href="#local-6989586621679268807"><span class="hs-identifier hs-var">slotNo</span></a></span></span><span> </span><span id="local-6989586621679268806"><span class="annot"><span class="annottext">HeaderHash blk
+</span><a href="#local-6989586621679268806"><span class="hs-identifier hs-var">headerHash</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">BlockNo</span></span><span> </span><span id="local-6989586621679268804"><span class="annot"><span class="annottext">Word64
+</span><a href="#local-6989586621679268804"><span class="hs-identifier hs-var">blkNo</span></a></span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-60"></span><span>      </span><span class="annot"><span class="annottext">[Text] -&gt; Text
+</span><span class="hs-identifier hs-var">Text.unlines</span></span><span>
+</span><span id="line-61"></span><span>        </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">Text
+</span><span class="hs-string">&quot;\n&quot;</span></span><span>
+</span><span id="line-62"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Text
+</span><span class="hs-string">&quot;Current tip: &quot;</span></span><span>
+</span><span id="line-63"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Text
+</span><span class="hs-string">&quot;Block hash: &quot;</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Proxy blk -&gt; HeaderHash blk -&gt; Text
+forall blk (proxy :: * -&gt; *).
+ConvertRawHash blk =&gt;
+proxy blk -&gt; HeaderHash blk -&gt; Text
+</span><a href="../file:///home/runner/work/cardano-node/cardano-node/dist/build/x86_64-linux/ghc-8.10.2/cardano-node-1.24.2/noopt/doc/html/cardano-node/src"><span class="hs-identifier hs-var">renderHeaderHash</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Proxy blk
+forall k (t :: k). Proxy t
+</span><span class="hs-identifier hs-var">Proxy</span></span><span> </span><span class="hs-glyph">@</span><span class="annot"><a href="#local-6989586621679268856"><span class="hs-identifier hs-type">blk</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">HeaderHash blk
+</span><a href="#local-6989586621679268806"><span class="hs-identifier hs-var">headerHash</span></a></span><span>
+</span><span id="line-64"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Text
+</span><span class="hs-string">&quot;Slot: &quot;</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">SlotNo -&gt; Text
+</span><a href="../file:///home/runner/work/cardano-node/cardano-node/dist/build/x86_64-linux/ghc-8.10.2/cardano-node-1.24.2/noopt/doc/html/cardano-node/src"><span class="hs-identifier hs-var">renderSlotNo</span></a></span><span> </span><span class="annot"><span class="annottext">SlotNo
+</span><a href="#local-6989586621679268807"><span class="hs-identifier hs-var">slotNo</span></a></span><span>
+</span><span id="line-65"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Text
+</span><span class="hs-string">&quot;Block number: &quot;</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Word64 -&gt; Text
+forall a b. (Show a, ConvertText String b) =&gt; a -&gt; b
+</span><span class="hs-identifier hs-var">show</span></span><span> </span><span class="annot"><span class="annottext">Word64
+</span><a href="#local-6989586621679268804"><span class="hs-identifier hs-var">blkNo</span></a></span><span>
+</span><span id="line-66"></span><span>        </span><span class="hs-special">]</span><span>
+</span><span id="line-67"></span></pre></body></html>
