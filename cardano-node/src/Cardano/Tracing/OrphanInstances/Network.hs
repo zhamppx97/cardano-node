@@ -437,6 +437,7 @@ instance HasSeverityAnnotation TraceLedgerPeers where
       PickedPeer {}                  -> Debug
       PickedPeers {}                 -> Info
       FetchingNewLedgerState {}      -> Info
+      DisabledLedgerPeers {}         -> Info
       WaitingOnRequest {}            -> Debug
       RequestForPeers {}             -> Debug
       ReusingLedgerState {}          -> Debug
@@ -1316,6 +1317,10 @@ instance ToObject TraceLedgerPeers where
   toObject _verb FallingBackToBootstrapPeers =
     mkObject
       [ "kind" .= String "TraceLedgerPeers FallingBackToBootstrapPeers"
+      ]
+  toObject _verb DisabledLedgerPeers =
+    mkObject
+      [ "kind" .= String "TraceLedgerPeers DisabledLedgerPeers"
       ]
 
 
