@@ -4471,7 +4471,7 @@
   },
   {
     "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:KeyRole\">KeyRole</a><ul class=\"subs\"><li>= <a href=\"#v:Genesis\">Genesis</a></li><li>| <a href=\"#v:GenesisDelegate\">GenesisDelegate</a></li><li>| <a href=\"#v:Payment\">Payment</a></li><li>| <a href=\"#v:Staking\">Staking</a></li><li>| <a href=\"#v:StakePool\">StakePool</a></li><li>| <a href=\"#v:BlockIssuer\">BlockIssuer</a></li><li>| <a href=\"#v:Witness\">Witness</a></li></ul>",
-    "name": "KeyRole Witness Genesis BlockIssuer Staking StakePool Payment GenesisDelegate",
+    "name": "KeyRole Witness Genesis StakePool Staking BlockIssuer Payment GenesisDelegate",
     "module": "Cardano.Api.Typed",
     "link": "cardano-api/Cardano-Api-Typed.html#t:KeyRole"
   },
