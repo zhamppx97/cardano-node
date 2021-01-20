@@ -1000,16 +1000,16 @@ instance ConvertRawHash blk
                , "rolledBackBlock" .= String (renderPointForVerbosity verb pt)
                ]
 
-    TraceChainSyncRollForward ->
+    TraceChainSyncRollForward _ ->
       mkObject [ "kind" .= String "ChainSyncServerEvent.TraceChainSyncRollForward"
                ]
-    TraceChainSyncRollBackward ->
+    TraceChainSyncRollBackward _ ->
       mkObject [ "kind" .= String "ChainSyncServerEvent.TraceChainSyncRollBackward"
                ]
-    TraceChainSyncIntersectFound ->
+    TraceChainSyncIntersectFound _ ->
       mkObject [ "kind" .= String "ChainSyncServerEvent.TraceChainSyncIntersectFound"
                ]
-    TraceChainSyncIntersectNotFound ->
+    TraceChainSyncIntersectNotFound _ ->
       mkObject [ "kind" .= String "ChainSyncServerEvent.TraceChainSyncIntersectNotFound"
                ]
 
