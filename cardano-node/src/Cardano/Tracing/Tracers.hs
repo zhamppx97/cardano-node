@@ -93,6 +93,7 @@ import           Cardano.Node.Configuration.Logging
 -- For tracing instances
 import           Cardano.Node.Protocol.Byron ()
 import           Cardano.Node.Protocol.Shelley ()
+import           Ouroboros.Consensus.MiniProtocol.BlockFetch.Server
 import           Ouroboros.Consensus.MiniProtocol.ChainSync.Server
 
 import qualified Ouroboros.Network.Diffusion as ND
@@ -425,6 +426,9 @@ isRollForward :: TraceChainSyncServerEvent blk -> Bool
 isRollForward TraceChainSyncRollForward = True
 isRollForward _ = False
 
+isTraceBlockFetchServerBlockCount :: TraceBlockFetchServerEvent blk -> Bool
+isTraceBlockFetchServerBlockCount (TraceBlockFetchServerBlockCount _) = True
+
 mkConsensusTracers
   :: forall blk peer localPeer.
      ( Show peer
@@ -456,7 +460,8 @@ mkConsensusTracers trSel verb tr nodeKern fStats = do
   forgeTracers <- mkForgeTracers
   meta <- mkLOMeta Critical Public
 
-  headerMessageCount <- STM.newTVarIO 0
+  tHeadersServed <- STM.newTVarIO 0
+  tBlocksServed <- STM.newTVarIO 0
 
   pure Consensus.Tracers
     { Consensus.chainSyncClientTracer = tracerOnOff (traceChainSyncClient trSel) verb "ChainSyncClient" tr
@@ -464,13 +469,18 @@ mkConsensusTracers trSel verb tr nodeKern fStats = do
         Tracer $ \ev -> do
           traceWith (annotateSeverity . toLogObject' verb $ appendName "ChainSyncHeaderServer" tr) ev
           when (isRollForward ev) $ do
-            count <- STM.atomically $ STM.modifyTVar headerMessageCount (+1) >> STM.readTVar headerMessageCount
+            count <- STM.atomically $ STM.modifyTVar tHeadersServed (+1) >> STM.readTVar tHeadersServed
             traceI trmet meta "served.header.count" count
     , Consensus.chainSyncServerBlockTracer = tracerOnOff (traceChainSyncBlockServer trSel) verb "ChainSyncBlockServer" tr
     , Consensus.blockFetchDecisionTracer = tracerOnOff' (traceBlockFetchDecisions trSel) $
         annotateSeverity $ teeTraceBlockFetchDecision verb elidedFetchDecision tr
     , Consensus.blockFetchClientTracer = tracerOnOff (traceBlockFetchClient trSel) verb "BlockFetchClient" tr
-    , Consensus.blockFetchServerTracer = tracerOnOff (traceBlockFetchServer trSel) verb "BlockFetchServer" tr
+    , Consensus.blockFetchServerTracer = tracerOnOff' (traceBlockFetchServer trSel) $
+        Tracer $ \ev -> do
+          traceWith (annotateSeverity . toLogObject' verb $ appendName "BlockFetchServer" tr) ev
+          when (isTraceBlockFetchServerBlockCount ev) $ do
+            count <- STM.atomically $ STM.modifyTVar tBlocksServed (+1) >> STM.readTVar tBlocksServed
+            traceI trmet meta "served.header.count" count
     , Consensus.forgeStateInfoTracer = tracerOnOff' (traceForgeStateInfo trSel) $
         forgeStateInfoTracer (Proxy @ blk) trSel tr
     , Consensus.txInboundTracer = tracerOnOff (traceTxInbound trSel) verb "TxInbound" tr
