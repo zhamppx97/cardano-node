@@ -1939,7 +1939,7 @@
   },
   {
     "display_html": "<span class=\"keyword\">data family</span> <a href=\"#t:AsType\">AsType</a> t",
-    "name": "AsType AsByronAddr AsShelleyAddr AsByronAddress AsShelleyAddress AsAddress AsAddressAny AsAddressInEra AsStakeAddress AsByronEra AsShelleyEra AsAllegraEra AsMaryEra AsByron AsShelley AsAllegra AsMary AsHash AsVerificationKey AsSigningKey AsTxMetadata AsPaymentKey AsPaymentExtendedKey AsStakeKey AsStakeExtendedKey AsGenesisKey AsGenesisExtendedKey AsGenesisDelegateKey AsGenesisDelegateExtendedKey AsGenesisUTxOKey AsStakePoolKey AsSimpleScriptV1 AsSimpleScriptV2 AsPlutusScriptV1 AsScript AsScriptInAnyLang AsScriptInEra AsScriptHash AsKesKey AsVrfKey AsByronKey AsByronKeyLegacy AsStakePoolMetadata AsPolicyId AsAssetName AsUpdateProposal",
+    "name": "AsType AsByronEra AsShelleyEra AsAllegraEra AsMaryEra AsByron AsShelley AsAllegra AsMary AsByronAddr AsShelleyAddr AsByronAddress AsShelleyAddress AsAddress AsAddressAny AsAddressInEra AsStakeAddress AsHash AsVerificationKey AsSigningKey AsTxMetadata AsPaymentKey AsPaymentExtendedKey AsStakeKey AsStakeExtendedKey AsGenesisKey AsGenesisExtendedKey AsGenesisDelegateKey AsGenesisDelegateExtendedKey AsGenesisUTxOKey AsStakePoolKey AsSimpleScriptV1 AsSimpleScriptV2 AsPlutusScriptV1 AsScript AsScriptInAnyLang AsScriptInEra AsScriptHash AsKesKey AsVrfKey AsByronKey AsByronKeyLegacy AsStakePoolMetadata AsPolicyId AsAssetName AsUpdateProposal",
     "module": "Cardano.Api.ProtocolParameters",
     "link": "cardano-api/Cardano-Api-ProtocolParameters.html#t:AsType"
   },
@@ -2035,7 +2035,7 @@
   },
   {
     "display_html": "<span class=\"keyword\">data family</span> <a href=\"#t:AsType\">AsType</a> t",
-    "name": "AsType AsByronAddr AsShelleyAddr AsByronAddress AsShelleyAddress AsAddress AsAddressAny AsAddressInEra AsStakeAddress AsByronEra AsShelleyEra AsAllegraEra AsMaryEra AsByron AsShelley AsAllegra AsMary AsHash AsVerificationKey AsSigningKey AsPaymentKey AsPaymentExtendedKey AsStakeKey AsStakeExtendedKey AsGenesisKey AsGenesisExtendedKey AsGenesisDelegateKey AsGenesisDelegateExtendedKey AsGenesisUTxOKey AsStakePoolKey AsSimpleScriptV1 AsSimpleScriptV2 AsPlutusScriptV1 AsScript AsScriptInAnyLang AsScriptInEra AsScriptHash AsKesKey AsVrfKey AsByronKey AsByronKeyLegacy AsStakePoolMetadata AsPolicyId AsAssetName AsCertificate",
+    "name": "AsType AsByronEra AsShelleyEra AsAllegraEra AsMaryEra AsByron AsShelley AsAllegra AsMary AsByronAddr AsShelleyAddr AsByronAddress AsShelleyAddress AsAddress AsAddressAny AsAddressInEra AsStakeAddress AsHash AsVerificationKey AsSigningKey AsPaymentKey AsPaymentExtendedKey AsStakeKey AsStakeExtendedKey AsGenesisKey AsGenesisExtendedKey AsGenesisDelegateKey AsGenesisDelegateExtendedKey AsGenesisUTxOKey AsStakePoolKey AsSimpleScriptV1 AsSimpleScriptV2 AsPlutusScriptV1 AsScript AsScriptInAnyLang AsScriptInEra AsScriptHash AsKesKey AsVrfKey AsByronKey AsByronKeyLegacy AsStakePoolMetadata AsPolicyId AsAssetName AsCertificate",
     "module": "Cardano.Api.Certificate",
     "link": "cardano-api/Cardano-Api-Certificate.html#t:AsType"
   },
@@ -2334,10 +2334,16 @@
     "link": "cardano-api/Cardano-Api-TxBody.html#v:fromShelleyTxIn"
   },
   {
-    "display_html": "<a href=\"#v:fromShelleyTxOut\">fromShelleyTxOut</a> &#8759; &#8704; era ledgerera. (<a href=\"Cardano-Api-Eras.html#t:ShelleyLedgerEra\" title=\"Cardano.Api.Eras\">ShelleyLedgerEra</a> era ~ ledgerera, <a href=\"Cardano-Api-Eras.html#t:IsShelleyBasedEra\" title=\"Cardano.Api.Eras\">IsShelleyBasedEra</a> era, ShelleyBased ledgerera) &#8658; TxOut ledgerera &#8594; <a href=\"Cardano-Api-TxBody.html#t:TxOut\" title=\"Cardano.Api.TxBody\">TxOut</a> era",
+    "display_html": "<a href=\"#v:fromShelleyTxOut\">fromShelleyTxOut</a> &#8759; TxOut <a href=\"Cardano-Api-Typed.html#t:StandardShelley\" title=\"Cardano.Api.Typed\">StandardShelley</a> &#8594; <a href=\"Cardano-Api-TxBody.html#t:TxOut\" title=\"Cardano.Api.TxBody\">TxOut</a> <a href=\"Cardano-Api-Eras.html#t:ShelleyEra\" title=\"Cardano.Api.Eras\">ShelleyEra</a>",
     "name": "fromShelleyTxOut",
     "module": "Cardano.Api.TxBody",
     "link": "cardano-api/Cardano-Api-TxBody.html#v:fromShelleyTxOut"
+  },
+  {
+    "display_html": "<a href=\"#v:fromTxOut\">fromTxOut</a> &#8759; <a href=\"Cardano-Api-Eras.html#t:ShelleyLedgerEra\" title=\"Cardano.Api.Eras\">ShelleyLedgerEra</a> era ~ ledgerera &#8658; <a href=\"Cardano-Api-Eras.html#t:ShelleyBasedEra\" title=\"Cardano.Api.Eras\">ShelleyBasedEra</a> era &#8594; TxOut ledgerera &#8594; <a href=\"Cardano-Api-TxBody.html#t:TxOut\" title=\"Cardano.Api.TxBody\">TxOut</a> era",
+    "name": "fromTxOut",
+    "module": "Cardano.Api.TxBody",
+    "link": "cardano-api/Cardano-Api-TxBody.html#v:fromTxOut"
   },
   {
     "display_html": "<span class=\"keyword\">data family</span> <a href=\"#t:AsType\">AsType</a> t",
@@ -2689,7 +2695,7 @@
   },
   {
     "display_html": "<span class=\"keyword\">data family</span> <a href=\"#t:AsType\">AsType</a> t",
-    "name": "AsType AsByronAddr AsShelleyAddr AsByronAddress AsShelleyAddress AsAddress AsAddressAny AsAddressInEra AsStakeAddress AsByronEra AsShelleyEra AsAllegraEra AsMaryEra AsByron AsShelley AsAllegra AsMary AsHash AsVerificationKey AsSigningKey AsTx AsByronTx AsShelleyTx AsWitness AsByronWitness AsShelleyWitness AsTxMetadata AsPaymentKey AsPaymentExtendedKey AsStakeKey AsStakeExtendedKey AsGenesisKey AsGenesisExtendedKey AsGenesisDelegateKey AsGenesisDelegateExtendedKey AsGenesisUTxOKey AsStakePoolKey AsSimpleScriptV1 AsSimpleScriptV2 AsPlutusScriptV1 AsScript AsScriptInAnyLang AsScriptInEra AsScriptHash AsKesKey AsVrfKey AsByronKey AsByronKeyLegacy AsStakePoolMetadata AsPolicyId AsAssetName AsUpdateProposal AsCertificate AsOperationalCertificate AsOperationalCertificateIssueCounter",
+    "name": "AsType AsByronEra AsShelleyEra AsAllegraEra AsMaryEra AsByron AsShelley AsAllegra AsMary AsByronAddr AsShelleyAddr AsByronAddress AsShelleyAddress AsAddress AsAddressAny AsAddressInEra AsStakeAddress AsHash AsVerificationKey AsSigningKey AsTx AsByronTx AsShelleyTx AsWitness AsByronWitness AsShelleyWitness AsTxMetadata AsPaymentKey AsPaymentExtendedKey AsStakeKey AsStakeExtendedKey AsGenesisKey AsGenesisExtendedKey AsGenesisDelegateKey AsGenesisDelegateExtendedKey AsGenesisUTxOKey AsStakePoolKey AsSimpleScriptV1 AsSimpleScriptV2 AsPlutusScriptV1 AsScript AsScriptInAnyLang AsScriptInEra AsScriptHash AsKesKey AsVrfKey AsByronKey AsByronKeyLegacy AsStakePoolMetadata AsPolicyId AsAssetName AsUpdateProposal AsCertificate AsOperationalCertificate AsOperationalCertificateIssueCounter",
     "module": "Cardano.Api.OperationalCertificate",
     "link": "cardano-api/Cardano-Api-OperationalCertificate.html#t:AsType"
   },
@@ -4483,7 +4489,7 @@
   },
   {
     "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:PParams-39-\">PParams'</a> (f &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/Data-Kind.html#t:Type\" title=\"Data.Kind\">Type</a> &#8594; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/Data-Kind.html#t:Type\" title=\"Data.Kind\">Type</a>) era = <a href=\"#v:PParams\">PParams</a> {<ul class=\"subs\"><li><a href=\"#v:_minfeeA\">_minfeeA</a> &#8759; !(HKD f <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/GHC-Natural.html#t:Natural\" title=\"GHC.Natural\">Natural</a>)</li><li><a href=\"#v:_minfeeB\">_minfeeB</a> &#8759; !(HKD f <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/GHC-Natural.html#t:Natural\" title=\"GHC.Natural\">Natural</a>)</li><li><a href=\"#v:_maxBBSize\">_maxBBSize</a> &#8759; !(HKD f <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/GHC-Natural.html#t:Natural\" title=\"GHC.Natural\">Natural</a>)</li><li><a href=\"#v:_maxTxSize\">_maxTxSize</a> &#8759; !(HKD f <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/GHC-Natural.html#t:Natural\" title=\"GHC.Natural\">Natural</a>)</li><li><a href=\"#v:_maxBHSize\">_maxBHSize</a> &#8759; !(HKD f <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/GHC-Natural.html#t:Natural\" title=\"GHC.Natural\">Natural</a>)</li><li><a href=\"#v:_keyDeposit\">_keyDeposit</a> &#8759; !(HKD f <a href=\"Cardano-Api-Typed.html#t:Coin\" title=\"Cardano.Api.Typed\">Coin</a>)</li><li><a href=\"#v:_poolDeposit\">_poolDeposit</a> &#8759; !(HKD f <a href=\"Cardano-Api-Typed.html#t:Coin\" title=\"Cardano.Api.Typed\">Coin</a>)</li><li><a href=\"#v:_eMax\">_eMax</a> &#8759; !(HKD f <a href=\"Cardano-Api-Typed.html#t:EpochNo\" title=\"Cardano.Api.Typed\">EpochNo</a>)</li><li><a href=\"#v:_nOpt\">_nOpt</a> &#8759; !(HKD f <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/GHC-Natural.html#t:Natural\" title=\"GHC.Natural\">Natural</a>)</li><li><a href=\"#v:_a0\">_a0</a> &#8759; !(HKD f <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Rational\" title=\"Distribution.Compat.Prelude.Internal\">Rational</a>)</li><li><a href=\"#v:_rho\">_rho</a> &#8759; !(HKD f UnitInterval)</li><li><a href=\"#v:_tau\">_tau</a> &#8759; !(HKD f UnitInterval)</li><li><a href=\"#v:_d\">_d</a> &#8759; !(HKD f UnitInterval)</li><li><a href=\"#v:_extraEntropy\">_extraEntropy</a> &#8759; !(HKD f Nonce)</li><li><a href=\"#v:_protocolVersion\">_protocolVersion</a> &#8759; !(HKD f ProtVer)</li><li><a href=\"#v:_minUTxOValue\">_minUTxOValue</a> &#8759; !(HKD f <a href=\"Cardano-Api-Typed.html#t:Coin\" title=\"Cardano.Api.Typed\">Coin</a>)</li><li><a href=\"#v:_minPoolCost\">_minPoolCost</a> &#8759; !(HKD f <a href=\"Cardano-Api-Typed.html#t:Coin\" title=\"Cardano.Api.Typed\">Coin</a>)</li></ul>}",
-    "name": "PParams' PParams _d _extraEntropy _a0 _keyDeposit _nOpt _poolDeposit _minfeeA _minfeeB _protocolVersion _rho _tau _eMax _maxBBSize _maxBHSize _maxTxSize _minPoolCost _minUTxOValue",
+    "name": "PParams' PParams _d _extraEntropy _a0 _keyDeposit _nOpt _poolDeposit _minfeeA _minfeeB _rho _tau _eMax _maxBBSize _maxBHSize _maxTxSize _minPoolCost _minUTxOValue _protocolVersion",
     "module": "Cardano.Api.Typed",
     "link": "cardano-api/Cardano-Api-Typed.html#t:PParams-39-"
   },
@@ -6210,7 +6216,7 @@
     "link": "cardano-api/Cardano-Api-Shelley.html#v:toShelleyTxOut"
   },
   {
-    "display_html": "<a href=\"#v:fromShelleyTxOut\">fromShelleyTxOut</a> &#8759; &#8704; era ledgerera. (<a href=\"Cardano-Api-Shelley.html#t:ShelleyLedgerEra\" title=\"Cardano.Api.Shelley\">ShelleyLedgerEra</a> era ~ ledgerera, <a href=\"Cardano-Api-Eras.html#t:IsShelleyBasedEra\" title=\"Cardano.Api.Eras\">IsShelleyBasedEra</a> era, ShelleyBased ledgerera) &#8658; TxOut ledgerera &#8594; <a href=\"Cardano-Api-Shelley.html#t:TxOut\" title=\"Cardano.Api.Shelley\">TxOut</a> era",
+    "display_html": "<a href=\"#v:fromShelleyTxOut\">fromShelleyTxOut</a> &#8759; TxOut <a href=\"Cardano-Api-Typed.html#t:StandardShelley\" title=\"Cardano.Api.Typed\">StandardShelley</a> &#8594; <a href=\"Cardano-Api-Shelley.html#t:TxOut\" title=\"Cardano.Api.Shelley\">TxOut</a> <a href=\"Cardano-Api-Eras.html#t:ShelleyEra\" title=\"Cardano.Api.Eras\">ShelleyEra</a>",
     "name": "fromShelleyTxOut",
     "module": "Cardano.Api.Shelley",
     "link": "cardano-api/Cardano-Api-Shelley.html#v:fromShelleyTxOut"
