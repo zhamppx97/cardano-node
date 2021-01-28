@@ -24,9 +24,7 @@ library
                         -- modules above
                         Cardano.Api.Crypto.Ed25519Bip32
                         Cardano.Api.Eras
-                        Cardano.Api.LocalChainSync
                         Cardano.Api.Modes
-                        Cardano.Api.Protocol
                         Cardano.Api.ProtocolParameters
                         Cardano.Api.Protocol.Byron
                         Cardano.Api.Protocol.Cardano
@@ -35,8 +33,7 @@ library
                         Cardano.Api.Query
                         Cardano.Api.Shelley.Genesis
                         Cardano.Api.TxInMode
-                        Cardano.Api.TxSubmit
-                        Cardano.Api.Typed
+                        Cardano.Api.Value
 
                         --TODO: this is only exported for now, until the old
                         -- IPC parts are removed and this modules can be
@@ -76,7 +73,8 @@ library
                         Cardano.Api.TxBody
                         Cardano.Api.TxMetadata
                         Cardano.Api.Utils
-                        Cardano.Api.Value
+-- TODO: move here      Cardano.Api.Value
+
 
 
 
