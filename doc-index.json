@@ -450,8 +450,8 @@
     "link": "cardano-api/Cardano-Api-Modes.html#t:AnyConsensusModeParams"
   },
   {
-    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:EpochSlots\">EpochSlots</a>",
-    "name": "EpochSlots",
+    "display_html": "<span class=\"keyword\">newtype</span> <a href=\"#t:EpochSlots\">EpochSlots</a> = <a href=\"#v:EpochSlots\">EpochSlots</a> {<ul class=\"subs\"><li><a href=\"#v:unEpochSlots\">unEpochSlots</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Word64\" title=\"Distribution.Compat.Prelude.Internal\">Word64</a></li></ul>}",
+    "name": "EpochSlots EpochSlots unEpochSlots",
     "module": "Cardano.Api.Modes",
     "link": "cardano-api/Cardano-Api-Modes.html#t:EpochSlots"
   },
@@ -2448,8 +2448,8 @@
     "link": "cardano-api/Cardano-Api-Block.html#t:Block"
   },
   {
-    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:BlockHeader\">BlockHeader</a>",
-    "name": "BlockHeader",
+    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:BlockHeader\">BlockHeader</a> = <a href=\"#v:BlockHeader\">BlockHeader</a> !<a href=\"Cardano-Api-Block.html#t:SlotNo\" title=\"Cardano.Api.Block\">SlotNo</a> !(<a href=\"Cardano-Api-Block.html#t:Hash\" title=\"Cardano.Api.Block\">Hash</a> <a href=\"Cardano-Api-Block.html#t:BlockHeader\" title=\"Cardano.Api.Block\">BlockHeader</a>) !<a href=\"Cardano-Api-Block.html#t:BlockNo\" title=\"Cardano.Api.Block\">BlockNo</a>",
+    "name": "BlockHeader BlockHeader",
     "module": "Cardano.Api.Block",
     "link": "cardano-api/Cardano-Api-Block.html#t:BlockHeader"
   },
@@ -2472,14 +2472,14 @@
     "link": "cardano-api/Cardano-Api-Block.html#t:ChainPoint"
   },
   {
-    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:SlotNo\">SlotNo</a>",
-    "name": "SlotNo",
+    "display_html": "<span class=\"keyword\">newtype</span> <a href=\"#t:SlotNo\">SlotNo</a> = <a href=\"#v:SlotNo\">SlotNo</a> {<ul class=\"subs\"><li><a href=\"#v:unSlotNo\">unSlotNo</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Word64\" title=\"Distribution.Compat.Prelude.Internal\">Word64</a></li></ul>}",
+    "name": "SlotNo SlotNo unSlotNo",
     "module": "Cardano.Api.Block",
     "link": "cardano-api/Cardano-Api-Block.html#t:SlotNo"
   },
   {
-    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:EpochNo\">EpochNo</a>",
-    "name": "EpochNo",
+    "display_html": "<span class=\"keyword\">newtype</span> <a href=\"#t:EpochNo\">EpochNo</a> = <a href=\"#v:EpochNo\">EpochNo</a> {<ul class=\"subs\"><li><a href=\"#v:unEpochNo\">unEpochNo</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Word64\" title=\"Distribution.Compat.Prelude.Internal\">Word64</a></li></ul>}",
+    "name": "EpochNo EpochNo unEpochNo",
     "module": "Cardano.Api.Block",
     "link": "cardano-api/Cardano-Api-Block.html#t:EpochNo"
   },
@@ -2514,8 +2514,8 @@
     "link": "cardano-api/Cardano-Api-Block.html#t:ChainTip"
   },
   {
-    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:BlockNo\">BlockNo</a>",
-    "name": "BlockNo",
+    "display_html": "<span class=\"keyword\">newtype</span> <a href=\"#t:BlockNo\">BlockNo</a> = <a href=\"#v:BlockNo\">BlockNo</a> {<ul class=\"subs\"><li><a href=\"#v:unBlockNo\">unBlockNo</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Word64\" title=\"Distribution.Compat.Prelude.Internal\">Word64</a></li></ul>}",
+    "name": "BlockNo BlockNo unBlockNo",
     "module": "Cardano.Api.Block",
     "link": "cardano-api/Cardano-Api-Block.html#t:BlockNo"
   },
@@ -2592,7 +2592,7 @@
     "link": "cardano-api/Cardano-Api-IPC.html#v:connectToLocalNode"
   },
   {
-    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:LocalNodeConnectInfo\">LocalNodeConnectInfo</a> mode = <a href=\"#v:LocalNodeConnectInfo\">LocalNodeConnectInfo</a> {<ul class=\"subs\"><li><a href=\"#v:localConsensusModeParams\">localConsensusModeParams</a> &#8759; <a href=\"Cardano-Api-Modes.html#t:ConsensusModeParams\" title=\"Cardano.Api.Modes\">ConsensusModeParams</a> mode</li><li><a href=\"#v:localNodeNetworkId\">localNodeNetworkId</a> &#8759; <a href=\"Cardano-Api-NetworkId.html#t:NetworkId\" title=\"Cardano.Api.NetworkId\">NetworkId</a></li><li><a href=\"#v:localNodeSocketPath\">localNodeSocketPath</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:FilePath\" title=\"Distribution.Compat.Prelude.Internal\">FilePath</a></li></ul>}",
+    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:LocalNodeConnectInfo\">LocalNodeConnectInfo</a> mode = <a href=\"#v:LocalNodeConnectInfo\">LocalNodeConnectInfo</a> {<ul class=\"subs\"><li><a href=\"#v:localConsensusModeParams\">localConsensusModeParams</a> &#8759; <a href=\"Cardano-Api-IPC.html#t:ConsensusModeParams\" title=\"Cardano.Api.IPC\">ConsensusModeParams</a> mode</li><li><a href=\"#v:localNodeNetworkId\">localNodeNetworkId</a> &#8759; <a href=\"Cardano-Api-NetworkId.html#t:NetworkId\" title=\"Cardano.Api.NetworkId\">NetworkId</a></li><li><a href=\"#v:localNodeSocketPath\">localNodeSocketPath</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:FilePath\" title=\"Distribution.Compat.Prelude.Internal\">FilePath</a></li></ul>}",
     "name": "LocalNodeConnectInfo LocalNodeConnectInfo localConsensusModeParams localNodeNetworkId localNodeSocketPath",
     "module": "Cardano.Api.IPC",
     "link": "cardano-api/Cardano-Api-IPC.html#t:LocalNodeConnectInfo"
@@ -2614,6 +2614,36 @@
     "name": "LocalNodeClientProtocolsInMode",
     "module": "Cardano.Api.IPC",
     "link": "cardano-api/Cardano-Api-IPC.html#t:LocalNodeClientProtocolsInMode"
+  },
+  {
+    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:ByronMode\">ByronMode</a>",
+    "name": "ByronMode",
+    "module": "Cardano.Api.IPC",
+    "link": "cardano-api/Cardano-Api-IPC.html#t:ByronMode"
+  },
+  {
+    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:ShelleyMode\">ShelleyMode</a>",
+    "name": "ShelleyMode",
+    "module": "Cardano.Api.IPC",
+    "link": "cardano-api/Cardano-Api-IPC.html#t:ShelleyMode"
+  },
+  {
+    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:CardanoMode\">CardanoMode</a>",
+    "name": "CardanoMode",
+    "module": "Cardano.Api.IPC",
+    "link": "cardano-api/Cardano-Api-IPC.html#t:CardanoMode"
+  },
+  {
+    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:ConsensusModeParams\">ConsensusModeParams</a> mode <span class=\"keyword\">where</span><ul class=\"subs\"><li><a href=\"#v:ByronModeParams\">ByronModeParams</a> &#8759; <a href=\"Cardano-Api-IPC.html#t:EpochSlots\" title=\"Cardano.Api.IPC\">EpochSlots</a> &#8594; <a href=\"Cardano-Api-IPC.html#t:ConsensusModeParams\" title=\"Cardano.Api.IPC\">ConsensusModeParams</a> <a href=\"Cardano-Api-IPC.html#t:ByronMode\" title=\"Cardano.Api.IPC\">ByronMode</a></li><li><a href=\"#v:ShelleyModeParams\">ShelleyModeParams</a> &#8759; <a href=\"Cardano-Api-IPC.html#t:ConsensusModeParams\" title=\"Cardano.Api.IPC\">ConsensusModeParams</a> <a href=\"Cardano-Api-IPC.html#t:ShelleyMode\" title=\"Cardano.Api.IPC\">ShelleyMode</a></li><li><a href=\"#v:CardanoModeParams\">CardanoModeParams</a> &#8759; <a href=\"Cardano-Api-IPC.html#t:EpochSlots\" title=\"Cardano.Api.IPC\">EpochSlots</a> &#8594; <a href=\"Cardano-Api-IPC.html#t:ConsensusModeParams\" title=\"Cardano.Api.IPC\">ConsensusModeParams</a> <a href=\"Cardano-Api-IPC.html#t:CardanoMode\" title=\"Cardano.Api.IPC\">CardanoMode</a></li></ul>",
+    "name": "ConsensusModeParams ByronModeParams ShelleyModeParams CardanoModeParams",
+    "module": "Cardano.Api.IPC",
+    "link": "cardano-api/Cardano-Api-IPC.html#t:ConsensusModeParams"
+  },
+  {
+    "display_html": "<span class=\"keyword\">newtype</span> <a href=\"#t:EpochSlots\">EpochSlots</a> = <a href=\"#v:EpochSlots\">EpochSlots</a> {<ul class=\"subs\"><li><a href=\"#v:unEpochSlots\">unEpochSlots</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Word64\" title=\"Distribution.Compat.Prelude.Internal\">Word64</a></li></ul>}",
+    "name": "EpochSlots EpochSlots unEpochSlots",
+    "module": "Cardano.Api.IPC",
+    "link": "cardano-api/Cardano-Api-IPC.html#t:EpochSlots"
   },
   {
     "display_html": "<span class=\"keyword\">newtype</span> <a href=\"#t:ChainSyncClient\">ChainSyncClient</a> header point tip (m &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/Data-Kind.html#t:Type\" title=\"Data.Kind\">Type</a> &#8594; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/Data-Kind.html#t:Type\" title=\"Data.Kind\">Type</a>) a = <a href=\"#v:ChainSyncClient\">ChainSyncClient</a> {<ul class=\"subs\"><li><a href=\"#v:runChainSyncClient\">runChainSyncClient</a> &#8759; m (ClientStIdle header point tip m a)</li></ul>}",
@@ -2700,13 +2730,13 @@
     "link": "cardano-api/Cardano-Api-IPC.html#v:getLocalChainTip"
   },
   {
-    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:ConsensusMode\">ConsensusMode</a> mode <span class=\"keyword\">where</span><ul class=\"subs\"><li><a href=\"#v:ByronMode\">ByronMode</a> &#8759; <a href=\"Cardano-Api-IPC.html#t:ConsensusMode\" title=\"Cardano.Api.IPC\">ConsensusMode</a> <a href=\"Cardano-Api-Modes.html#t:ByronMode\" title=\"Cardano.Api.Modes\">ByronMode</a></li><li><a href=\"#v:ShelleyMode\">ShelleyMode</a> &#8759; <a href=\"Cardano-Api-IPC.html#t:ConsensusMode\" title=\"Cardano.Api.IPC\">ConsensusMode</a> <a href=\"Cardano-Api-Modes.html#t:ShelleyMode\" title=\"Cardano.Api.Modes\">ShelleyMode</a></li><li><a href=\"#v:CardanoMode\">CardanoMode</a> &#8759; <a href=\"Cardano-Api-IPC.html#t:ConsensusMode\" title=\"Cardano.Api.IPC\">ConsensusMode</a> <a href=\"Cardano-Api-Modes.html#t:CardanoMode\" title=\"Cardano.Api.Modes\">CardanoMode</a></li></ul>",
+    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:ConsensusMode\">ConsensusMode</a> mode <span class=\"keyword\">where</span><ul class=\"subs\"><li><a href=\"#v:ByronMode\">ByronMode</a> &#8759; <a href=\"Cardano-Api-IPC.html#t:ConsensusMode\" title=\"Cardano.Api.IPC\">ConsensusMode</a> <a href=\"Cardano-Api-IPC.html#t:ByronMode\" title=\"Cardano.Api.IPC\">ByronMode</a></li><li><a href=\"#v:ShelleyMode\">ShelleyMode</a> &#8759; <a href=\"Cardano-Api-IPC.html#t:ConsensusMode\" title=\"Cardano.Api.IPC\">ConsensusMode</a> <a href=\"Cardano-Api-IPC.html#t:ShelleyMode\" title=\"Cardano.Api.IPC\">ShelleyMode</a></li><li><a href=\"#v:CardanoMode\">CardanoMode</a> &#8759; <a href=\"Cardano-Api-IPC.html#t:ConsensusMode\" title=\"Cardano.Api.IPC\">ConsensusMode</a> <a href=\"Cardano-Api-IPC.html#t:CardanoMode\" title=\"Cardano.Api.IPC\">CardanoMode</a></li></ul>",
     "name": "ConsensusMode ByronMode CardanoMode ShelleyMode",
     "module": "Cardano.Api.IPC",
     "link": "cardano-api/Cardano-Api-IPC.html#t:ConsensusMode"
   },
   {
-    "display_html": "<a href=\"#v:consensusModeOnly\">consensusModeOnly</a> &#8759; <a href=\"Cardano-Api-Modes.html#t:ConsensusModeParams\" title=\"Cardano.Api.Modes\">ConsensusModeParams</a> mode &#8594; <a href=\"Cardano-Api-IPC.html#t:ConsensusMode\" title=\"Cardano.Api.IPC\">ConsensusMode</a> mode",
+    "display_html": "<a href=\"#v:consensusModeOnly\">consensusModeOnly</a> &#8759; <a href=\"Cardano-Api-IPC.html#t:ConsensusModeParams\" title=\"Cardano.Api.IPC\">ConsensusModeParams</a> mode &#8594; <a href=\"Cardano-Api-IPC.html#t:ConsensusMode\" title=\"Cardano.Api.IPC\">ConsensusMode</a> mode",
     "name": "consensusModeOnly",
     "module": "Cardano.Api.IPC",
     "link": "cardano-api/Cardano-Api-IPC.html#v:consensusModeOnly"
@@ -2935,7 +2965,7 @@
   },
   {
     "display_html": "<span class=\"keyword\">data family</span> <a href=\"#t:Hash\">Hash</a> keyrole &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/Data-Kind.html#t:Type\" title=\"Data.Kind\">Type</a>",
-    "name": "Hash PaymentKeyHash PaymentExtendedKeyHash StakeKeyHash StakeExtendedKeyHash GenesisKeyHash GenesisExtendedKeyHash GenesisDelegateKeyHash GenesisDelegateExtendedKeyHash GenesisUTxOKeyHash StakePoolKeyHash KesKeyHash VrfKeyHash ByronKeyHash ByronKeyHashLegacy StakePoolMetadataHash",
+    "name": "Hash HeaderHash PaymentKeyHash PaymentExtendedKeyHash StakeKeyHash StakeExtendedKeyHash GenesisKeyHash GenesisExtendedKeyHash GenesisDelegateKeyHash GenesisDelegateExtendedKeyHash GenesisUTxOKeyHash StakePoolKeyHash KesKeyHash VrfKeyHash ByronKeyHash ByronKeyHashLegacy StakePoolMetadataHash",
     "module": "Cardano.Api.Typed",
     "link": "cardano-api/Cardano-Api-Typed.html#t:Hash"
   },
@@ -4759,7 +4789,7 @@
   },
   {
     "display_html": "<span class=\"keyword\">data family</span> <a href=\"#t:Hash\">Hash</a> keyrole &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/Data-Kind.html#t:Type\" title=\"Data.Kind\">Type</a>",
-    "name": "Hash PaymentKeyHash PaymentExtendedKeyHash StakeKeyHash StakeExtendedKeyHash GenesisKeyHash GenesisExtendedKeyHash GenesisDelegateKeyHash GenesisDelegateExtendedKeyHash GenesisUTxOKeyHash StakePoolKeyHash KesKeyHash VrfKeyHash ByronKeyHash ByronKeyHashLegacy StakePoolMetadataHash",
+    "name": "Hash HeaderHash PaymentKeyHash PaymentExtendedKeyHash StakeKeyHash StakeExtendedKeyHash GenesisKeyHash GenesisExtendedKeyHash GenesisDelegateKeyHash GenesisDelegateExtendedKeyHash GenesisUTxOKeyHash StakePoolKeyHash KesKeyHash VrfKeyHash ByronKeyHash ByronKeyHashLegacy StakePoolMetadataHash",
     "module": "Cardano.Api",
     "link": "cardano-api/Cardano-Api.html#t:Hash"
   },
@@ -5028,6 +5058,42 @@
     "link": "cardano-api/Cardano-Api.html#v:valueToLovelace"
   },
   {
+    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:Block\">Block</a> era <span class=\"keyword\">where</span><ul class=\"subs\"><li><span class=\"keyword\">pattern</span> <a href=\"#v:Block\">Block</a> &#8759; <a href=\"Cardano-Api.html#t:BlockHeader\" title=\"Cardano.Api\">BlockHeader</a> &#8594; [<a href=\"Cardano-Api.html#t:Tx\" title=\"Cardano.Api\">Tx</a> era] &#8594; <a href=\"Cardano-Api.html#t:Block\" title=\"Cardano.Api\">Block</a> era</li></ul>",
+    "name": "Block Block",
+    "module": "Cardano.Api",
+    "link": "cardano-api/Cardano-Api.html#t:Block"
+  },
+  {
+    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:BlockHeader\">BlockHeader</a> = <a href=\"#v:BlockHeader\">BlockHeader</a> !<a href=\"Cardano-Api.html#t:SlotNo\" title=\"Cardano.Api\">SlotNo</a> !(<a href=\"Cardano-Api.html#t:Hash\" title=\"Cardano.Api\">Hash</a> <a href=\"Cardano-Api.html#t:BlockHeader\" title=\"Cardano.Api\">BlockHeader</a>) !<a href=\"Cardano-Api.html#t:BlockNo\" title=\"Cardano.Api\">BlockNo</a>",
+    "name": "BlockHeader BlockHeader",
+    "module": "Cardano.Api",
+    "link": "cardano-api/Cardano-Api.html#t:BlockHeader"
+  },
+  {
+    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:ChainPoint\">ChainPoint</a>",
+    "name": "ChainPoint",
+    "module": "Cardano.Api",
+    "link": "cardano-api/Cardano-Api.html#t:ChainPoint"
+  },
+  {
+    "display_html": "<span class=\"keyword\">newtype</span> <a href=\"#t:EpochNo\">EpochNo</a> = <a href=\"#v:EpochNo\">EpochNo</a> {<ul class=\"subs\"><li><a href=\"#v:unEpochNo\">unEpochNo</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Word64\" title=\"Distribution.Compat.Prelude.Internal\">Word64</a></li></ul>}",
+    "name": "EpochNo EpochNo unEpochNo",
+    "module": "Cardano.Api",
+    "link": "cardano-api/Cardano-Api.html#t:EpochNo"
+  },
+  {
+    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:ChainTip\">ChainTip</a><ul class=\"subs\"><li>= <a href=\"#v:ChainTipAtGenesis\">ChainTipAtGenesis</a></li><li>| <a href=\"#v:ChainTip\">ChainTip</a> !<a href=\"Cardano-Api.html#t:SlotNo\" title=\"Cardano.Api\">SlotNo</a> !(<a href=\"Cardano-Api.html#t:Hash\" title=\"Cardano.Api\">Hash</a> <a href=\"Cardano-Api.html#t:BlockHeader\" title=\"Cardano.Api\">BlockHeader</a>) !<a href=\"Cardano-Api.html#t:BlockNo\" title=\"Cardano.Api\">BlockNo</a></li></ul>",
+    "name": "ChainTip ChainTip ChainTipAtGenesis",
+    "module": "Cardano.Api",
+    "link": "cardano-api/Cardano-Api.html#t:ChainTip"
+  },
+  {
+    "display_html": "<span class=\"keyword\">newtype</span> <a href=\"#t:BlockNo\">BlockNo</a> = <a href=\"#v:BlockNo\">BlockNo</a> {<ul class=\"subs\"><li><a href=\"#v:unBlockNo\">unBlockNo</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Word64\" title=\"Distribution.Compat.Prelude.Internal\">Word64</a></li></ul>}",
+    "name": "BlockNo BlockNo unBlockNo",
+    "module": "Cardano.Api",
+    "link": "cardano-api/Cardano-Api.html#t:BlockNo"
+  },
+  {
     "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:TxBody\">TxBody</a> era",
     "name": "TxBody",
     "module": "Cardano.Api",
@@ -5280,8 +5346,8 @@
     "link": "cardano-api/Cardano-Api.html#v:updateProposalSupportedInEra"
   },
   {
-    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:Tx\">Tx</a> era",
-    "name": "Tx",
+    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:Tx\">Tx</a> era <span class=\"keyword\">where</span><ul class=\"subs\"><li><span class=\"keyword\">pattern</span> <a href=\"#v:Tx\">Tx</a> &#8759; <a href=\"Cardano-Api.html#t:TxBody\" title=\"Cardano.Api\">TxBody</a> era &#8594; [<a href=\"Cardano-Api.html#t:Witness\" title=\"Cardano.Api\">Witness</a> era] &#8594; <a href=\"Cardano-Api.html#t:Tx\" title=\"Cardano.Api\">Tx</a> era</li></ul>",
+    "name": "Tx Tx",
     "module": "Cardano.Api",
     "link": "cardano-api/Cardano-Api.html#t:Tx"
   },
@@ -5466,7 +5532,7 @@
     "link": "cardano-api/Cardano-Api.html#v:makeStakePoolRegistrationCertificate"
   },
   {
-    "display_html": "<a href=\"#v:makeStakePoolRetirementCertificate\">makeStakePoolRetirementCertificate</a> &#8759; <a href=\"Cardano-Api-Certificate.html#t:PoolId\" title=\"Cardano.Api.Certificate\">PoolId</a> &#8594; <a href=\"Cardano-Api-ProtocolParameters.html#t:EpochNo\" title=\"Cardano.Api.ProtocolParameters\">EpochNo</a> &#8594; <a href=\"Cardano-Api.html#t:Certificate\" title=\"Cardano.Api\">Certificate</a>",
+    "display_html": "<a href=\"#v:makeStakePoolRetirementCertificate\">makeStakePoolRetirementCertificate</a> &#8759; <a href=\"Cardano-Api-Certificate.html#t:PoolId\" title=\"Cardano.Api.Certificate\">PoolId</a> &#8594; <a href=\"Cardano-Api.html#t:EpochNo\" title=\"Cardano.Api\">EpochNo</a> &#8594; <a href=\"Cardano-Api.html#t:Certificate\" title=\"Cardano.Api\">Certificate</a>",
     "name": "makeStakePoolRetirementCertificate",
     "module": "Cardano.Api",
     "link": "cardano-api/Cardano-Api.html#v:makeStakePoolRetirementCertificate"
@@ -6078,19 +6144,19 @@
     "link": "cardano-api/Cardano-Api.html#v:makeGenesisKeyDelegationCertificate"
   },
   {
-    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:UpdateProposal\">UpdateProposal</a> = <a href=\"#v:UpdateProposal\">UpdateProposal</a> !(<a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Map\" title=\"Distribution.Compat.Prelude.Internal\">Map</a> (<a href=\"Cardano-Api.html#t:Hash\" title=\"Cardano.Api\">Hash</a> <a href=\"Cardano-Api.html#t:GenesisKey\" title=\"Cardano.Api\">GenesisKey</a>) <a href=\"Cardano-Api.html#t:ProtocolParametersUpdate\" title=\"Cardano.Api\">ProtocolParametersUpdate</a>) !<a href=\"Cardano-Api-ProtocolParameters.html#t:EpochNo\" title=\"Cardano.Api.ProtocolParameters\">EpochNo</a>",
+    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:UpdateProposal\">UpdateProposal</a> = <a href=\"#v:UpdateProposal\">UpdateProposal</a> !(<a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Map\" title=\"Distribution.Compat.Prelude.Internal\">Map</a> (<a href=\"Cardano-Api.html#t:Hash\" title=\"Cardano.Api\">Hash</a> <a href=\"Cardano-Api.html#t:GenesisKey\" title=\"Cardano.Api\">GenesisKey</a>) <a href=\"Cardano-Api.html#t:ProtocolParametersUpdate\" title=\"Cardano.Api\">ProtocolParametersUpdate</a>) !<a href=\"Cardano-Api.html#t:EpochNo\" title=\"Cardano.Api\">EpochNo</a>",
     "name": "UpdateProposal UpdateProposal",
     "module": "Cardano.Api",
     "link": "cardano-api/Cardano-Api.html#t:UpdateProposal"
   },
   {
-    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:ProtocolParametersUpdate\">ProtocolParametersUpdate</a> = <a href=\"#v:ProtocolParametersUpdate\">ProtocolParametersUpdate</a> {<ul class=\"subs\"><li><a href=\"#v:protocolUpdateProtocolVersion\">protocolUpdateProtocolVersion</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> (<a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/GHC-Natural.html#t:Natural\" title=\"GHC.Natural\">Natural</a>, <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/GHC-Natural.html#t:Natural\" title=\"GHC.Natural\">Natural</a>)</li><li><a href=\"#v:protocolUpdateDecentralization\">protocolUpdateDecentralization</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Rational\" title=\"Distribution.Compat.Prelude.Internal\">Rational</a></li><li><a href=\"#v:protocolUpdateExtraPraosEntropy\">protocolUpdateExtraPraosEntropy</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> (<a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"Cardano-Api.html#t:PraosNonce\" title=\"Cardano.Api\">PraosNonce</a>)</li><li><a href=\"#v:protocolUpdateMaxBlockHeaderSize\">protocolUpdateMaxBlockHeaderSize</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/GHC-Natural.html#t:Natural\" title=\"GHC.Natural\">Natural</a></li><li><a href=\"#v:protocolUpdateMaxBlockBodySize\">protocolUpdateMaxBlockBodySize</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/GHC-Natural.html#t:Natural\" title=\"GHC.Natural\">Natural</a></li><li><a href=\"#v:protocolUpdateMaxTxSize\">protocolUpdateMaxTxSize</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/GHC-Natural.html#t:Natural\" title=\"GHC.Natural\">Natural</a></li><li><a href=\"#v:protocolUpdateTxFeeFixed\">protocolUpdateTxFeeFixed</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/GHC-Natural.html#t:Natural\" title=\"GHC.Natural\">Natural</a></li><li><a href=\"#v:protocolUpdateTxFeePerByte\">protocolUpdateTxFeePerByte</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/GHC-Natural.html#t:Natural\" title=\"GHC.Natural\">Natural</a></li><li><a href=\"#v:protocolUpdateMinUTxOValue\">protocolUpdateMinUTxOValue</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"Cardano-Api.html#t:Lovelace\" title=\"Cardano.Api\">Lovelace</a></li><li><a href=\"#v:protocolUpdateStakeAddressDeposit\">protocolUpdateStakeAddressDeposit</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"Cardano-Api.html#t:Lovelace\" title=\"Cardano.Api\">Lovelace</a></li><li><a href=\"#v:protocolUpdateStakePoolDeposit\">protocolUpdateStakePoolDeposit</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"Cardano-Api.html#t:Lovelace\" title=\"Cardano.Api\">Lovelace</a></li><li><a href=\"#v:protocolUpdateMinPoolCost\">protocolUpdateMinPoolCost</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"Cardano-Api.html#t:Lovelace\" title=\"Cardano.Api\">Lovelace</a></li><li><a href=\"#v:protocolUpdatePoolRetireMaxEpoch\">protocolUpdatePoolRetireMaxEpoch</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"Cardano-Api-ProtocolParameters.html#t:EpochNo\" title=\"Cardano.Api.ProtocolParameters\">EpochNo</a></li><li><a href=\"#v:protocolUpdateStakePoolTargetNum\">protocolUpdateStakePoolTargetNum</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/GHC-Natural.html#t:Natural\" title=\"GHC.Natural\">Natural</a></li><li><a href=\"#v:protocolUpdatePoolPledgeInfluence\">protocolUpdatePoolPledgeInfluence</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Rational\" title=\"Distribution.Compat.Prelude.Internal\">Rational</a></li><li><a href=\"#v:protocolUpdateMonetaryExpansion\">protocolUpdateMonetaryExpansion</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Rational\" title=\"Distribution.Compat.Prelude.Internal\">Rational</a></li><li><a href=\"#v:protocolUpdateTreasuryCut\">protocolUpdateTreasuryCut</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Rational\" title=\"Distribution.Compat.Prelude.Internal\">Rational</a></li></ul>}",
+    "display_html": "<span class=\"keyword\">data</span> <a href=\"#t:ProtocolParametersUpdate\">ProtocolParametersUpdate</a> = <a href=\"#v:ProtocolParametersUpdate\">ProtocolParametersUpdate</a> {<ul class=\"subs\"><li><a href=\"#v:protocolUpdateProtocolVersion\">protocolUpdateProtocolVersion</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> (<a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/GHC-Natural.html#t:Natural\" title=\"GHC.Natural\">Natural</a>, <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/GHC-Natural.html#t:Natural\" title=\"GHC.Natural\">Natural</a>)</li><li><a href=\"#v:protocolUpdateDecentralization\">protocolUpdateDecentralization</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Rational\" title=\"Distribution.Compat.Prelude.Internal\">Rational</a></li><li><a href=\"#v:protocolUpdateExtraPraosEntropy\">protocolUpdateExtraPraosEntropy</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> (<a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"Cardano-Api.html#t:PraosNonce\" title=\"Cardano.Api\">PraosNonce</a>)</li><li><a href=\"#v:protocolUpdateMaxBlockHeaderSize\">protocolUpdateMaxBlockHeaderSize</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/GHC-Natural.html#t:Natural\" title=\"GHC.Natural\">Natural</a></li><li><a href=\"#v:protocolUpdateMaxBlockBodySize\">protocolUpdateMaxBlockBodySize</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/GHC-Natural.html#t:Natural\" title=\"GHC.Natural\">Natural</a></li><li><a href=\"#v:protocolUpdateMaxTxSize\">protocolUpdateMaxTxSize</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/GHC-Natural.html#t:Natural\" title=\"GHC.Natural\">Natural</a></li><li><a href=\"#v:protocolUpdateTxFeeFixed\">protocolUpdateTxFeeFixed</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/GHC-Natural.html#t:Natural\" title=\"GHC.Natural\">Natural</a></li><li><a href=\"#v:protocolUpdateTxFeePerByte\">protocolUpdateTxFeePerByte</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/GHC-Natural.html#t:Natural\" title=\"GHC.Natural\">Natural</a></li><li><a href=\"#v:protocolUpdateMinUTxOValue\">protocolUpdateMinUTxOValue</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"Cardano-Api.html#t:Lovelace\" title=\"Cardano.Api\">Lovelace</a></li><li><a href=\"#v:protocolUpdateStakeAddressDeposit\">protocolUpdateStakeAddressDeposit</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"Cardano-Api.html#t:Lovelace\" title=\"Cardano.Api\">Lovelace</a></li><li><a href=\"#v:protocolUpdateStakePoolDeposit\">protocolUpdateStakePoolDeposit</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"Cardano-Api.html#t:Lovelace\" title=\"Cardano.Api\">Lovelace</a></li><li><a href=\"#v:protocolUpdateMinPoolCost\">protocolUpdateMinPoolCost</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"Cardano-Api.html#t:Lovelace\" title=\"Cardano.Api\">Lovelace</a></li><li><a href=\"#v:protocolUpdatePoolRetireMaxEpoch\">protocolUpdatePoolRetireMaxEpoch</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"Cardano-Api.html#t:EpochNo\" title=\"Cardano.Api\">EpochNo</a></li><li><a href=\"#v:protocolUpdateStakePoolTargetNum\">protocolUpdateStakePoolTargetNum</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/base-4.14.1.0/GHC-Natural.html#t:Natural\" title=\"GHC.Natural\">Natural</a></li><li><a href=\"#v:protocolUpdatePoolPledgeInfluence\">protocolUpdatePoolPledgeInfluence</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Rational\" title=\"Distribution.Compat.Prelude.Internal\">Rational</a></li><li><a href=\"#v:protocolUpdateMonetaryExpansion\">protocolUpdateMonetaryExpansion</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Rational\" title=\"Distribution.Compat.Prelude.Internal\">Rational</a></li><li><a href=\"#v:protocolUpdateTreasuryCut\">protocolUpdateTreasuryCut</a> &#8759; <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Maybe\" title=\"Distribution.Compat.Prelude.Internal\">Maybe</a> <a href=\"file:///opt/ghc/8.10.2/share/doc/ghc-8.10.2/html/libraries/Cabal-3.2.0.0/Distribution-Compat-Prelude-Internal.html#t:Rational\" title=\"Distribution.Compat.Prelude.Internal\">Rational</a></li></ul>}",
     "name": "ProtocolParametersUpdate ProtocolParametersUpdate protocolUpdateProtocolVersion protocolUpdateDecentralization protocolUpdateExtraPraosEntropy protocolUpdateMaxBlockHeaderSize protocolUpdateMaxBlockBodySize protocolUpdateMaxTxSize protocolUpdateTxFeeFixed protocolUpdateTxFeePerByte protocolUpdateMinUTxOValue protocolUpdateStakeAddressDeposit protocolUpdateStakePoolDeposit protocolUpdateMinPoolCost protocolUpdatePoolRetireMaxEpoch protocolUpdateStakePoolTargetNum protocolUpdatePoolPledgeInfluence protocolUpdateMonetaryExpansion protocolUpdateTreasuryCut",
     "module": "Cardano.Api",
     "link": "cardano-api/Cardano-Api.html#t:ProtocolParametersUpdate"
   },
   {
-    "display_html": "<a href=\"#v:makeShelleyUpdateProposal\">makeShelleyUpdateProposal</a> &#8759; <a href=\"Cardano-Api.html#t:ProtocolParametersUpdate\" title=\"Cardano.Api\">ProtocolParametersUpdate</a> &#8594; [<a href=\"Cardano-Api.html#t:Hash\" title=\"Cardano.Api\">Hash</a> <a href=\"Cardano-Api.html#t:GenesisKey\" title=\"Cardano.Api\">GenesisKey</a>] &#8594; <a href=\"Cardano-Api-ProtocolParameters.html#t:EpochNo\" title=\"Cardano.Api.ProtocolParameters\">EpochNo</a> &#8594; <a href=\"Cardano-Api.html#t:UpdateProposal\" title=\"Cardano.Api\">UpdateProposal</a>",
+    "display_html": "<a href=\"#v:makeShelleyUpdateProposal\">makeShelleyUpdateProposal</a> &#8759; <a href=\"Cardano-Api.html#t:ProtocolParametersUpdate\" title=\"Cardano.Api\">ProtocolParametersUpdate</a> &#8594; [<a href=\"Cardano-Api.html#t:Hash\" title=\"Cardano.Api\">Hash</a> <a href=\"Cardano-Api.html#t:GenesisKey\" title=\"Cardano.Api\">GenesisKey</a>] &#8594; <a href=\"Cardano-Api.html#t:EpochNo\" title=\"Cardano.Api\">EpochNo</a> &#8594; <a href=\"Cardano-Api.html#t:UpdateProposal\" title=\"Cardano.Api\">UpdateProposal</a>",
     "name": "makeShelleyUpdateProposal",
     "module": "Cardano.Api",
     "link": "cardano-api/Cardano-Api.html#v:makeShelleyUpdateProposal"
