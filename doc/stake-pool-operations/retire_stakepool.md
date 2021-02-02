@@ -28,14 +28,15 @@ So we are currently in epoch 39.
 
 We can look up `eMax` by querying the current protocol parameters:
 
-    cardano-cli shelley query protocol-parameters \
+    cardano-cli query protocol-parameters \
+    --cardano-mode \
     --mainnet \
     --out-file protocol.json
 
     cat protocol.json | grep eMax
     > "eMax": 100,
 
-This means the earliest epoch for retirement is 40 (one in the future), and the latest is 139 (current epoch plus `eMax`).  
+This means the earliest epoch for retirement is 40 (one in the future), and the latest is 139 (current epoch plus `eMax`).
 
 So for example, we can decide to retire in epoch 41.
 

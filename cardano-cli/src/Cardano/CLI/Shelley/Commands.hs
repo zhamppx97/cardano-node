@@ -270,7 +270,7 @@ renderPoolCmd cmd =
     PoolMetadataHash {} -> "stake-pool metadata-hash"
 
 data QueryCmd =
-    QueryProtocolParameters AnyCardanoEra AnyConsensusModeParams NetworkId (Maybe OutputFile)
+    QueryProtocolParameters AnyConsensusModeParams NetworkId (Maybe OutputFile)
   | QueryTip AnyConsensusModeParams NetworkId (Maybe OutputFile)
   | QueryStakeDistribution AnyCardanoEra AnyConsensusModeParams NetworkId (Maybe OutputFile)
   | QueryStakeAddressInfo AnyCardanoEra AnyConsensusModeParams StakeAddress NetworkId (Maybe OutputFile)

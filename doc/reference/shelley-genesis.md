@@ -1127,15 +1127,14 @@ we expect. We'll need a third terminal.
 
 We'll start with querying the node to see the current set of protocol parameters.
 ```bash
-$ cardano-cli shelley query protocol-parameters
-Usage: cardano-cli shelley query protocol-parameters [--shelley-mode |
-                                                       --byron-mode
-                                                       [--epoch-slots NATURAL] |
-                                                       --cardano-mode
-                                                       [--epoch-slots NATURAL]]
-                                                     (--mainnet |
-                                                       --testnet-magic NATURAL)
-                                                     [--out-file FILE]
+$ cardano-cli query protocol-parameters
+Usage: cardano-cli query protocol-parameters [--shelley-mode | --byron-mode
+                                               [--epoch-slots NATURAL] |
+                                               --cardano-mode
+                                               [--epoch-slots NATURAL]]
+                                             (--mainnet |
+                                               --testnet-magic NATURAL)
+                                             [--out-file FILE]
   Get the node's current protocol parameters
 
 Available options:
@@ -1175,9 +1174,9 @@ time in the command.
 
 ```json
 $ CARDANO_NODE_SOCKET_PATH=example/node1/node.sock \
-    cardano-cli shelley query protocol-parameters \
+    cardano-cli query protocol-parameters \
     --testnet-magic 42 \
-    --shelley-mode
+    --cardano-mode
 {
     "poolDeposit": 0,
     "protocolVersion": {

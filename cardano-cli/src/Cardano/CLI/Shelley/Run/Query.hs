@@ -97,8 +97,8 @@ renderShelleyQueryCmdError err =
 runQueryCmd :: QueryCmd -> ExceptT ShelleyQueryCmdError IO ()
 runQueryCmd cmd =
   case cmd of
-    QueryProtocolParameters era consensusModeParams network mOutFile ->
-      runQueryProtocolParameters era consensusModeParams network mOutFile
+    QueryProtocolParameters consensusModeParams network mOutFile ->
+      runQueryProtocolParameters consensusModeParams network mOutFile
     QueryTip consensusModeParams network mOutFile ->
       runQueryTip consensusModeParams network mOutFile
     QueryStakeDistribution era consensusModeParams network mOutFile ->
@@ -113,35 +113,69 @@ runQueryCmd cmd =
       runQueryUTxO era consensusModeParams qFilter networkId mOutFile
 
 runQueryProtocolParameters
-  :: AnyCardanoEra
-  -> AnyConsensusModeParams
+  :: AnyConsensusModeParams
   -> NetworkId
   -> Maybe OutputFile
   -> ExceptT ShelleyQueryCmdError IO ()
-runQueryProtocolParameters anyEra@(AnyCardanoEra era) (AnyConsensusModeParams cModeParams)
-                           network mOutFile = do
+runQueryProtocolParameters (AnyConsensusModeParams cModeParams) network mOutFile = do
   SocketPath sockPath <- firstExceptT ShelleyQueryCmdEnvVarSocketErr
                            readEnvSocketPath
 
-  let consensusMode = NewIPC.consensusModeOnly cModeParams
-  eraInMode <- hoistMaybe (ShelleyQueryCmdEraConsensusModeMismatch anyEra (AnyConsensusMode consensusMode))
-                 $ toEraInMode era consensusMode
-
   let localNodeConnInfo = NewIPC.LocalNodeConnectInfo cModeParams network sockPath
 
-  qInMode <- case cardanoEraStyle era of
-               LegacyByronEra -> left ShelleyQueryCmdByronEra
-               ShelleyBasedEra sbe -> return . NewIPC.QueryInEra eraInMode
-                                        $ NewIPC.QueryInShelleyBasedEra sbe NewIPC.QueryProtocolParameters
-
   tip <- liftIO $ NewIPC.getLocalChainTip localNodeConnInfo
-  res <- liftIO $ NewIPC.queryNodeLocalState localNodeConnInfo tip qInMode
-  case res of
-    Left acqFailure -> left $ ShelleyQueryCmdAcquireFailure acqFailure
-    Right ePparams ->
-      case ePparams of
-        Left err -> left . ShelleyQueryCmdLocalStateQueryError $ EraMismatchError err
-        Right pparams -> writeProtocolParameters mOutFile pparams
+
+  case NewIPC.consensusModeOnly cModeParams of
+    ByronMode -> left ShelleyQueryCmdByronEra
+    ShelleyMode -> do
+      let anyEra = AnyCardanoEra ShelleyEra
+      eraInMode <- calcEraInMode anyEra ShelleyEra ShelleyMode
+
+      let qInMode = NewIPC.QueryInEra eraInMode
+                      $ NewIPC.QueryInShelleyBasedEra ShelleyBasedEraShelley NewIPC.QueryProtocolParameters
+
+      finalRes <- liftIO $ NewIPC.queryNodeLocalState localNodeConnInfo tip qInMode
+      handlePParamsQueryResult finalRes
+
+    CardanoMode -> do
+      eraQ <- liftIO . queryNodeLocalState localNodeConnInfo tip
+                     $ (NewIPC.QueryCurrentEra CardanoModeIsMultiEra)
+
+      anyEra@(AnyCardanoEra era) <-
+        case eraQ of
+          Left acqFail -> left $ ShelleyQueryCmdAcquireFailure acqFail
+          Right anyCarEra -> return anyCarEra
+
+      eraInMode <- calcEraInMode anyEra era CardanoMode
+
+      qInMode <- case cardanoEraStyle era of
+                   LegacyByronEra -> left ShelleyQueryCmdByronEra
+                   ShelleyBasedEra sbe -> return . NewIPC.QueryInEra eraInMode
+                                            $ NewIPC.QueryInShelleyBasedEra sbe NewIPC.QueryProtocolParameters
+
+
+      finalRes <- liftIO $ NewIPC.queryNodeLocalState localNodeConnInfo tip qInMode
+      handlePParamsQueryResult finalRes
+ where
+   calcEraInMode
+     :: AnyCardanoEra
+     -> CardanoEra era
+     -> ConsensusMode mode
+     -> ExceptT ShelleyQueryCmdError IO (EraInMode era mode)
+   calcEraInMode anyEra era mode=
+     hoistMaybe (ShelleyQueryCmdEraConsensusModeMismatch anyEra (AnyConsensusMode mode))
+                      $ toEraInMode era mode
+
+   handlePParamsQueryResult
+     :: Either AcquireFailure (Either EraMismatch ProtocolParameters)
+     -> ExceptT ShelleyQueryCmdError IO ()
+   handlePParamsQueryResult finalRes =
+     case finalRes of
+       Left acqFailure -> left $ ShelleyQueryCmdAcquireFailure acqFailure
+       Right ePparams ->
+         case ePparams of
+           Left err -> left . ShelleyQueryCmdLocalStateQueryError $ EraMismatchError err
+           Right pparams -> writeProtocolParameters mOutFile pparams
 
 writeProtocolParameters
   :: Maybe OutputFile

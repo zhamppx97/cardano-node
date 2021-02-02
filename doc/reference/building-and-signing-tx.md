@@ -22,7 +22,8 @@ To create a transaction we need to follow this process:
 
 Query and save the parameters in **protocol.json**
 
-    cardano-cli shelley query protocol-parameters \
+    cardano-cli query protocol-parameters \
+    --cardano-mode \
     --mainnet \
     --out-file protocol.json
 
@@ -40,7 +41,7 @@ In the draft `tx-out`, `ttl` and `fee` can be zero. Later we use the `out-file` 
 
 **Calculate the fee**
 
-Use `tx.draft` as `tx-body-file`. **Witnesses** are the amount of keys that must sign the transaction.   
+Use `tx.draft` as `tx-body-file`. **Witnesses** are the amount of keys that must sign the transaction.
 
     cardano-cli shelley transaction calculate-min-fee \
     --tx-body-file tx.draft \
@@ -73,7 +74,7 @@ Therefore, if N = 200 slots
 
     ttl = 369200 + 200
     ttl = 369400
-    
+
 **Build the transaction**
 
 This time we include all the paramenters:

@@ -14,8 +14,9 @@ Creating a transaction requires various steps:
 Get the protocol parameters and save them to `protocol.json` with:
 
 ```
-cardano-cli shelley query protocol-parameters \
+cardano-cli query protocol-parameters \
   --mainnet \
+  --cardano-mode \
   --out-file protocol.json
 ```
 
@@ -72,7 +73,7 @@ all amounts must be in Lovelace:
 
     expr <UTXO BALANCE> - <AMOUNT TO SEND> - <TRANSACTION FEE>
 
-For example, if we send 10 ADA from a UTxO containing 20 ADA, the change to send back to `payment.addr` after paying the fee is: 9.832035 ADA  
+For example, if we send 10 ADA from a UTxO containing 20 ADA, the change to send back to `payment.addr` after paying the fee is: 9.832035 ADA
 
     expr 20000000 - 10000000 - 167965
 
@@ -145,4 +146,4 @@ We must give it some time to get incorporated into the blockchain, but eventuall
     > b64ae44e1195b04663ab863b62337e626c65b0c9855a9fbb9ef4458f81a6f5ee     0         10000000
 
 
-**Note**`--mainnet` identifies the Cardano mainnet, for testnets use `--testnet-magic 1097911063` instead. 
+**Note**`--mainnet` identifies the Cardano mainnet, for testnets use `--testnet-magic 1097911063` instead.

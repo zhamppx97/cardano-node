@@ -384,8 +384,9 @@ module Cardano.Api (
     -- ** Low level protocol interaction with a Cardano node
     connectToLocalNode,
     LocalNodeConnectInfo(..),
-    ConsensusMode,
+    ConsensusMode(..),
     ConsensusModeParams(..),
+    ConsensusModeIsMultiEra(..),
     LocalNodeClientProtocols,
     localChainSyncClient,
     localTxSubmissionClient,

@@ -659,8 +659,7 @@ pQueryCmd =
     pQueryProtocolParameters :: Parser QueryCmd
     pQueryProtocolParameters =
       QueryProtocolParameters
-        <$> pCardanoEra
-        <*> pConsensusModeParams
+        <$> pConsensusModeParams
         <*> pNetworkId
         <*> pMaybeOutputFile
 
