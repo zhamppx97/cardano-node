@@ -40,6 +40,7 @@ type TraceChainSyncBlockServer = ("TraceChainSyncBlockServer" :: Symbol)
 type TraceChainSyncClient = ("TraceChainSyncClient" :: Symbol)
 type TraceChainSyncHeaderServer = ("TraceChainSyncHeaderServer" :: Symbol)
 type TraceChainSyncProtocol = ("TraceChainSyncProtocol" :: Symbol)
+type TraceChainSyncReqRsp = ("TraceChainSyncReqRsp" :: Symbol)
 type TraceConnectionManager = ("TraceConnectionManager" :: Symbol)
 type DebugPeerSelectionInitiator = ("DebugPeerSelectionInitiator" :: Symbol)
 type DebugPeerSelectionInitiatorResponder = ("DebugPeerSelectionInitiatorResponder" :: Symbol)
@@ -94,6 +95,7 @@ data TraceSelection
   , traceChainSyncBlockServer :: OnOff TraceChainSyncBlockServer
   , traceChainSyncClient :: OnOff TraceChainSyncClient
   , traceChainSyncHeaderServer :: OnOff TraceChainSyncHeaderServer
+  , traceChainSyncReqRsp :: OnOff TraceChainSyncReqRsp
   , traceChainSyncProtocol :: OnOff TraceChainSyncProtocol
   , traceConnectionManager :: OnOff TraceConnectionManager
   , traceDebugPeerSelectionInitiatorTracer :: OnOff DebugPeerSelectionInitiator
@@ -151,6 +153,8 @@ traceConfigParser v =
       chainSyncClient = OnOff True
       chainSyncHeaderServer :: OnOff TraceChainSyncHeaderServer
       chainSyncHeaderServer = OnOff False
+      chainSyncReqRsp :: OnOff TraceChainSyncReqRsp
+      chainSyncReqRsp = OnOff False
       chainSyncProtocol :: OnOff TraceChainSyncProtocol
       chainSyncProtocol = OnOff False
       connectionManager :: OnOff TraceConnectionManager
@@ -223,6 +227,7 @@ traceConfigParser v =
     <*> v .:? getName chainSyncBlockServer .!= chainSyncBlockServer
     <*> v .:? getName chainSyncClient .!= chainSyncClient
     <*> v .:? getName chainSyncHeaderServer .!= chainSyncHeaderServer
+    <*> v .:? getName chainSyncReqRsp .!= chainSyncReqRsp
     <*> v .:? getName chainSyncProtocol .!= chainSyncProtocol
     <*> v .:? getName connectionManager .!= connectionManager
     <*> v .:? getName debugPeerSelectionInitiator
