@@ -125,6 +125,7 @@ import qualified Cardano.Ledger.AuxiliaryData as Ledger (hashAuxiliaryData)
 import qualified Cardano.Ledger.Core as Ledger
 import qualified Cardano.Ledger.Core as Core
 import qualified Cardano.Ledger.Era as Ledger
+import           Cardano.Ledger.SafeHash (extractHash, unsafeMakeSafeHash)
 import qualified Cardano.Ledger.Shelley.Constraints as Ledger
 import qualified Cardano.Ledger.ShelleyMA.AuxiliaryData as Allegra
 import qualified Cardano.Ledger.ShelleyMA.TxBody as Allegra
@@ -183,15 +184,14 @@ toByronTxId (TxId h) =
 
 toShelleyTxId :: TxId -> Shelley.TxId StandardCrypto
 toShelleyTxId (TxId h) =
-    Shelley.TxId (Crypto.castHash h)
+    Shelley.TxId (unsafeMakeSafeHash $ Crypto.castHash h)
 
 fromShelleyTxId :: Shelley.TxId StandardCrypto -> TxId
-fromShelleyTxId (Shelley.TxId h) =
-    TxId (Crypto.castHash h)
+fromShelleyTxId (Shelley.TxId h) = TxId $ extractHash h
 
 -- | Calculate the transaction identifier for a 'TxBody'.
 --
-getTxId :: TxBody era -> TxId
+getTxId :: forall era. TxBody era -> TxId
 getTxId (ByronTxBody tx) =
     TxId
   . fromMaybe impossible
@@ -205,18 +205,18 @@ getTxId (ByronTxBody tx) =
 
 getTxId (ShelleyTxBody era tx _) =
     case era of
-      ShelleyBasedEraShelley -> getTxIdShelley tx
-      ShelleyBasedEraAllegra -> getTxIdShelley tx
-      ShelleyBasedEraMary    -> getTxIdShelley tx
+      ShelleyBasedEraShelley -> getTxIdShelley @(ShelleyLedgerEra era) tx
+      ShelleyBasedEraAllegra -> getTxIdShelley @(ShelleyLedgerEra era) tx
+      ShelleyBasedEraMary    -> getTxIdShelley @(ShelleyLedgerEra era) tx
   where
-    getTxIdShelley :: Ledger.Crypto ledgerera ~ StandardCrypto
+    getTxIdShelley :: forall ledgerera. Ledger.Crypto ledgerera ~ StandardCrypto
                    => Ledger.UsesTxBody ledgerera
                    => Ledger.TxBody ledgerera -> TxId
     getTxIdShelley =
         TxId
-      . Crypto.castHash
+      . extractHash
       . (\(Shelley.TxId txhash) -> txhash)
-      . Shelley.txid
+      . Shelley.txid @ledgerera
 
 
 -- ----------------------------------------------------------------------------

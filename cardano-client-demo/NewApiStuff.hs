@@ -50,6 +50,7 @@ import           Data.Functor.Identity (Identity (..))
 import           Data.Map (Map)
 import qualified Data.Map as Map
 import           Data.Maybe (fromMaybe)
+import           Data.Set (Set)
 import           Data.Text (Text)
 import qualified Data.Text as Text
 import qualified Data.Text.Encoding as Text
@@ -106,6 +107,7 @@ import qualified Shelley.Spec.Ledger.Genesis
 import qualified Shelley.Spec.Ledger.Keys
 import qualified Shelley.Spec.Ledger.LedgerState
 import qualified Shelley.Spec.Ledger.PParams
+import qualified Shelley.Spec.Ledger.Rewards
 import qualified Shelley.Spec.Ledger.STS.Tickn
 
 
@@ -683,7 +685,7 @@ data ProtoParams = ProtoParams
 -- Shelley/Allegra/Mary. This is a huge pain in the neck for `db-sync` so we define a
 -- generic one instead.
 newtype Rewards
-  = Rewards { unRewards :: Map StakeCred Shelley.Spec.Ledger.Coin.Coin }
+  = Rewards { unRewards :: Map StakeCred (Set (Shelley.Spec.Ledger.Rewards.Reward C.StandardCrypto)) }
 
 newtype StakeCred
   = StakeCred { unStakeCred :: ByteString }

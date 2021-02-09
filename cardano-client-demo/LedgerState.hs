@@ -22,33 +22,42 @@ import           Cardano.Slotting.Slot (WithOrigin (At, Origin))
 import           Control.Monad (when)
 import           Data.Foldable
 import           Data.IORef
+import qualified Data.Set as Set
+import qualified Data.Map.Strict as Map
 import           NewApiStuff
 import qualified Ouroboros.Consensus.Shelley.Ledger as Shelley
+import qualified Shelley.Spec.Ledger.API as Ledger
+import qualified Shelley.Spec.Ledger.Rewards as Ledger
 
 
 main :: IO ()
 main = do
   -- Get socket path from CLI argument.
   configFilePath : socketPath : _ <- getArgs
-  blockCount <- foldBlocks
+  rewardUpdatesByEpoch <- foldBlocks
     configFilePath
     socketPath
-    (0 :: Int) -- We just use a count of the blocks as the current state
+    mempty
     (\_env
       ledgerState
       (IPC.BlockInMode (Block (BlockHeader _slotNo _blockHeaderHash (BlockNo blockNoI)) _transactions) _era)
-      blockCount -> do
+      rewardUpdatesByEpoch -> do
         case ledgerState of
-            LedgerStateShelley (Shelley.ShelleyLedgerState shelleyTipWO _ _) -> case shelleyTipWO of
-              Origin -> putStrLn "."
-              At (Shelley.ShelleyTip _ _ hash) -> print hash
-            _ -> when (blockNoI `mod` 100 == 0) (print blockNoI)
-        return (blockCount + 1)
+            LedgerStateShelley (Shelley.ShelleyLedgerState _ ls _) -> return (update ls rewardUpdatesByEpoch)
+            _ -> when (blockNoI `mod` 10000 == 0) (print blockNoI) >> return rewardUpdatesByEpoch
     )
 
-  putStrLn $ "Processed " ++ show blockCount ++ " blocks"
+  let allShelleyRewards = Map.foldr (Map.unionWith (<>) . (Map.map fold) . Ledger.rs) mempty rewardUpdatesByEpoch
+  mapM_ putStrLn $ fmap (\(x, y) -> show x ++ " " ++ show y) $ Map.toList allShelleyRewards
   return ()
 
+  where
+    update ls rs =
+      if (Ledger.nesEL ls `Map.member` rs)
+        then rs
+        else case Ledger.nesRu ls of
+               Ledger.SNothing -> rs
+               Ledger.SJust ru -> Map.insert (Ledger.nesEL ls) ru rs
 
 
 -- | Monadic fold over all blocks and ledger states.
