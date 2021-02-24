@@ -1,5 +1,4 @@
 { lib
-, cardanoExes
 , runCommand
 , writeText
 ##
