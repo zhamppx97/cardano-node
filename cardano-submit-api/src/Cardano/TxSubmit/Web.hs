@@ -20,15 +20,37 @@ import Cardano.TxSubmit.Tx
 import Cardano.TxSubmit.Types
 import Cardano.TxSubmit.Util
 
--- import Cardano.Api.Protocol
---     ( Protocol (..), withlocalNodeConnectInfo )
-import Cardano.Api.TxBody ( TxId(..) )
 import Cardano.Api
--- import Cardano.Api.Typed
---     ( NodeConsensusMode (..)
---     )
-import           Data.Bifunctor (first)
-import           Cardano.Prelude (putTextLn)
+    ( ToJSON
+    , consensusModeOnly
+    , submitTxToNodeLocal
+    , toEraInMode
+    , deserialiseFromTextEnvelopeAnyOf
+    , getTxBody
+    , getTxId
+    , AllegraEra
+    , AnyCardanoEra(AnyCardanoEra)
+    , ByronEra
+    , CardanoEra(MaryEra, ByronEra, ShelleyEra, AllegraEra)
+    , InAnyCardanoEra(..)
+    , MaryEra
+    , ShelleyEra
+    , AsType(AsTx, AsByronEra, AsShelleyEra, AsAllegraEra, AsMaryEra)
+    , FromSomeType(..)
+    , HasTypeProxy(AsType)
+    , LocalNodeConnectInfo(LocalNodeConnectInfo,
+                           localConsensusModeParams, localNodeNetworkId, localNodeSocketPath)
+    , AnyConsensusMode(AnyConsensusMode)
+    , AnyConsensusModeParams(..)
+    , NetworkId
+    , HasTextEnvelope
+    , TextEnvelopeError(TextEnvelopeAesonDecodeError)
+    , Tx
+    , TxId(..)
+    , TxInMode(TxInMode)
+    , TxValidationErrorInMode(TxValidationEraMismatch,
+                              TxValidationErrorInMode) )
+import Cardano.Prelude (putTextLn)
 import Cardano.Binary
     ( DecoderError )
 import Cardano.BM.Trace
@@ -39,6 +61,7 @@ import Control.Monad.IO.Class
     ( liftIO )
 import Data.Aeson
     ( ToJSON (..) )
+import Data.Bifunctor (first)
 import Data.ByteString.Char8
     ( ByteString )
 import Data.Proxy

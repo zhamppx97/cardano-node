@@ -15,7 +15,7 @@ module Cardano.TxSubmit.Types
   ) where
 
 import Cardano.Api
-    ( TxId, AnyCardanoEra, TextEnvelopeError )
+    ( AnyCardanoEra, AnyConsensusMode(..), TxId, TextEnvelopeError )
 import Cardano.Binary
     ( DecoderError )
 import Cardano.TxSubmit.Tx
@@ -44,7 +44,6 @@ import Servant
     )
 import Servant.API.Generic
     ( (:-), ToServantApi )
-import Cardano.Api.Modes
 import           Ouroboros.Consensus.Cardano.Block (EraMismatch (..))
 
 import qualified Data.ByteString.Lazy.Char8 as LBS

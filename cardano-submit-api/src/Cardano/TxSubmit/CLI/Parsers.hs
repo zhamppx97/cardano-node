@@ -12,9 +12,8 @@ module Cardano.TxSubmit.CLI.Parsers
 
 import Cardano.Prelude
 
-import Cardano.Api.Modes
 import Cardano.Api
-    ( NetworkId (..), NetworkMagic (..) )
+    ( AnyConsensusModeParams (..), ConsensusModeParams (..), EpochSlots(..), NetworkId (..), NetworkMagic (..) )
 import Cardano.TxSubmit.CLI.Types
     ( ConfigFile (..), SocketPath (..), TxSubmitNodeParams (..) )
 import Cardano.TxSubmit.Rest.Parsers
